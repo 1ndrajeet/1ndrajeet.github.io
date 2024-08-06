@@ -1,15 +1,16 @@
 "use client";
 
-export function ThankYou() {
+export default function ThankYou() {
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-900">
+    <section className="w-full min-h-screen flex items-center justify-center py-12 md:py-24 lg:py-32 bg-gray-900">
       <div className="container px-4 md:px-6">
         <div className="text-center space-y-8">
           <h2 className="text-3xl font-bold text-gray-100 tracking-tighter sm:text-4xl md:text-5xl">
             Thank You! 🙏
           </h2>
           <p className="text-gray-400 md:text-xl">
-            Your message has been sent successfully. I appreciate you reaching out, and I will get back to you as soon as possible.
+            Your message has been sent successfully. I appreciate you reaching
+            out, and I will get back to you as soon as possible.
           </p>
           <div className="mt-8">
             <a
