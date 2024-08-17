@@ -6,7 +6,7 @@ import Image from 'next/image'; // Import Image from next/image
 export function About() {
   return (
     <section id="about" className="w-full py-12 md:py-24 lg:py-32 bg-gray-900">
-      <div className="container px-4 md:px-6">
+      <div className="container max-w-8xl m-auto px-4 md:px-6">
         <div className="grid gap-8 md:grid-cols-2 items-center">
           {/* Text Section */}
           <motion.div

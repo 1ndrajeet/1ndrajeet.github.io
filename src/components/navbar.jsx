@@ -9,8 +9,8 @@ export default function Navbar() {
   const toggleMenu = () => setIsMenuOpen(prev => !prev);
 
   return (
-    <div className="p-4 fixed top-0 left-0 right-0 z-50 bg-slate-900 md:border-b border-emerald-400 backdrop-blur-2xl">
-      <div className="container mx-auto flex items-center justify-between">
+    <div className="p-4 fixed top-0 z-20 left-0 right-0 bg-slate-900 md:border-b border-emerald-400 backdrop-blur-2xl">
+      <div className="container max-w-8xl mx-auto flex items-center justify-between">
         <Link href="#" className="flex items-center gap-2 text-gray-100" prefetch={false}>
           <TerminalIcon className="h-6 w-6 text-gray-100" />
           <span className="text-lg font-bold">1ndrajeet</span>
@@ -33,9 +33,9 @@ export default function Navbar() {
         </nav>
 
         {/* Mobile Menu Button */}
-        <button 
-          className="md:hidden text-gray-100 transition-transform duration-300 ease-in-out" 
-          onClick={toggleMenu}
+        <button
+          className="md:hidden text-gray-100 transition-transform duration-300 ease-in-out"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
         >
           {isMenuOpen ? (
@@ -47,8 +47,8 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Navigation */}
-      <div 
-        className={`md:hidden ${isMenuOpen ? "block" : "hidden"} backdrop-blur-2xl mt-4 p-4`} 
+      <div
+        className={`md:hidden ${isMenuOpen ? "block" : "hidden"} backdrop-blur-2xl mt-4 p-4`}
       >
         <nav className="flex flex-col space-y-4">
           <Link href="#home" className="text-gray-100 hover:text-emerald-300 underline-offset-4 hover:underline" prefetch={false}>

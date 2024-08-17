@@ -10,14 +10,24 @@ export function Projects() {
 
   return (
     <section id="projects" className="w-full py-12 md:py-24 lg:py-32 bg-gray-800">
-      <div className="container px-4 md:px-6">
+      <div className="max-w-8xl m-auto container px-4 md:px-6">
         <div className="space-y-8 text-center">
-          <h2 className="text-3xl font-bold text-gray-100 tracking-tighter sm:text-4xl md:text-5xl">
+          <motion.h2
+            className="text-3xl font-bold text-gray-100 tracking-tighter sm:text-4xl md:text-5xl"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
             My Projects 🛠️
-          </h2>
-          <p className="text-gray-400 md:text-xl">
+          </motion.h2>
+          <motion.p
+            className="text-gray-400 md:text-xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
             Check out some of my super cool projects! Each one showcases my skills.
-          </p>
+          </motion.p>
         </div>
         <div className="grid gap-8 mt-12 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
@@ -29,10 +39,22 @@ export function Projects() {
               transition={{ duration: 0.5, ease: "easeInOut" }}
             >
               <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-100">
+                <motion.h3
+                  className="text-xl font-bold text-gray-100"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                >
                   {project.title}
-                </h3>
-                <p className="text-gray-400 mt-2">{project.description}</p>
+                </motion.h3>
+                <motion.p
+                  className="text-gray-400 mt-2"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                >
+                  {project.description}
+                </motion.p>
                 <div className="mt-4">
                   <span
                     className={`inline-block px-3 py-1 text-sm font-semibold rounded-full ${
@@ -46,13 +68,19 @@ export function Projects() {
                 </div>
                 {project.status === "Active" && project.link && (
                   <div className="mt-6 flex justify-end">
-                    <Link
-                      href={project.link}
-                      className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md shadow hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-600"
-                      prefetch={false}
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
                     >
-                      View Project 🔗
-                    </Link>
+                      <Link
+                        href={project.link}
+                        className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md shadow hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                        prefetch={false}
+                      >
+                        View Project 🔗
+                      </Link>
+                    </motion.div>
                   </div>
                 )}
               </div>

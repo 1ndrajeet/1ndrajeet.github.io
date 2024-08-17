@@ -7,9 +7,9 @@ import React from "react";
 
 export default function page() {
   return (
-    <div>
+    <div className="">
       <Navbar />
-      |<Hero />
+      <Hero />
       <About />
       <Projects/>
       <Contact/>

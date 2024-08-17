@@ -1,5 +1,8 @@
 import { Montserrat } from "next/font/google";
 import "./globals.css";
+import "./style.css";
+import Head from "next/head";
+import CustomCursor from './script'; // Adjust the path as necessary
 
 const font = Montserrat({ subsets: ["latin"], weight: "400" });
 
@@ -11,7 +14,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={font.className}>{children}</body>
+      <Head>
+        <link rel="icon" href="/terminal.png" />
+      </Head>
+      <body className={font.className}>
+        <CustomCursor />
+        {children}
+      </body>
     </html>
   );
 }

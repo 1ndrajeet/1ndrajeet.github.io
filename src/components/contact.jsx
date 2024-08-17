@@ -1,53 +1,101 @@
-"use client";
+"use client"; // Ensure this is at the top of the file
 
-import { Github, Instagram, Linkedin } from "lucide-react";
+import { FaGithubAlt, FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
+import { motion } from "framer-motion";
 
-export function Contact() {
-  return (
-    <section
-      id="contact"
-      className="w-full py-12 md:py-24 lg:py-32 bg-gray-900"
-    >
-      <div className="container px-4 md:px-6">
-        <div className="space-y-8 text-center">
+const socialLinks = [
+  {
+    href: process.env.NEXT_PUBLIC_GITHUB_URL,
+    icon: FaGithubAlt,
+    label: "GitHub",
+    hoverColor: "text-white",
+  },
+  {
+    href: process.env.NEXT_PUBLIC_WHATSAPP_URL,
+    icon: FaWhatsapp,
+    label: "WhatsApp",
+    hoverColor: "text-emerald-500",
+  },
+  {
+    href: process.env.NEXT_PUBLIC_LINKEDIN_URL,
+    icon: FaLinkedinIn,
+    label: "LinkedIn",
+    hoverColor: "text-blue-600",
+  },
+];
+
+const MotionSection = ({ children }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6, ease: "easeOut" }}
+  >
+    {children}
+  </motion.div>
+);
+
+const FormInput = ({ id, name, type, label, required }) => (
+  <div>
+    <label htmlFor={id} className="block text-gray-300">
+      {label}
+    </label>
+    <input
+      type={type}
+      id={id}
+      name={name}
+      className="w-full p-3 mt-1 bg-gray-700 text-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors duration-300"
+      required={required}
+    />
+  </div>
+);
+
+const FormTextarea = ({ id, name, label, rows, required }) => (
+  <div>
+    <label htmlFor={id} className="block text-gray-300">
+      {label}
+    </label>
+    <textarea
+      id={id}
+      name={name}
+      rows={rows}
+      className="w-full p-3 mt-1 bg-gray-700 text-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors duration-300"
+      required={required}
+    />
+  </div>
+);
+
+export const Contact = () => (
+  <section id="contact" className="w-full py-12 md:py-24 lg:py-32 bg-gray-900">
+    <div className="container max-w-8xl m-auto px-4 md:px-6">
+      <div className="space-y-8 text-center">
+        <MotionSection>
           <h2 className="text-3xl font-bold text-gray-100 tracking-tighter sm:text-4xl md:text-5xl">
             Contact Me 📬
           </h2>
+        </MotionSection>
+        <MotionSection>
           <p className="text-gray-400 md:text-xl">
             Feel free to reach out to me through any of the following platforms
             or by filling out the form below.
           </p>
+        </MotionSection>
+        <MotionSection>
           <div className="flex justify-center space-x-6">
-            <a
-              href={process.env.NEXT_PUBLIC_GITHUB_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-gray-100 transition-colors duration-300"
-              aria-label="GitHub"
-            >
-              <Github className="h-8 w-8 hover:text-emerald-400 transition-colors duration-300" />
-            </a>
-            <a
-              href={process.env.NEXT_PUBLIC_INSTAGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-gray-100 transition-colors duration-300"
-              aria-label="Instagram"
-            >
-              <Instagram className="h-8 w-8 hover:text-rose-500 transition-colors duration-300" />
-            </a>
-            <a
-              href={process.env.NEXT_PUBLIC_LINKEDIN_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-gray-100 transition-colors duration-300"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="h-8 w-8 hover:text-blue-600 transition-colors duration-300" />
-            </a>
+            {socialLinks.map(({ href, icon: Icon, label, hoverColor }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`text-gray-400 hover:text-gray-100 transition-colors duration-300`}
+                aria-label={label}
+              >
+                <Icon className={`h-8 w-8 hover:${hoverColor} transition-colors duration-300`} />
+              </a>
+            ))}
           </div>
-        </div>
-        <div className="mt-12">
+        </MotionSection>
+        <MotionSection>
           <form
             action={process.env.NEXT_PUBLIC_FORM_SUBMIT_URL}
             method="post"
@@ -68,42 +116,9 @@ export function Contact() {
               Send me a message
             </h3>
             <div className="space-y-4">
-              <div>
-                <label htmlFor="name" className="block text-gray-300">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  className="w-full p-3 mt-1 bg-gray-700 text-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors duration-300"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-gray-300">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  className="w-full p-3 mt-1 bg-gray-700 text-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors duration-300"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="message" className="block text-gray-300">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows="4"
-                  className="w-full p-3 mt-1 bg-gray-700 text-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors duration-300"
-                  required
-                />
-              </div>
+              <FormInput id="name" name="name" type="text" label="Name" required />
+              <FormInput id="email" name="email" type="email" label="Email" required />
+              <FormTextarea id="message" name="message" label="Message" rows="4" required />
               <button
                 type="submit"
                 className="w-full py-2 bg-emerald-500 text-white rounded-md shadow hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 transition-colors duration-300"
@@ -112,8 +127,8 @@ export function Contact() {
               </button>
             </div>
           </form>
-        </div>
+        </MotionSection>
       </div>
-    </section>
-  );
-}
+    </div>
+  </section>
+);
