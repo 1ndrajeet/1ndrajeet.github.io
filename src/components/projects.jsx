@@ -2,15 +2,14 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import data from "../app/data.json"; // Adjust the path to your JSON file
+import data from "../app/data.json";
 
 export function Projects() {
-  // Access the projects array from the JSON data
-  const projects = data.projects || []; // Fallback to empty array if data.projects is undefined
+  const projects = data.projects || [];
 
   return (
     <section id="projects" className="w-full py-12 md:py-24 lg:py-32 bg-gray-800">
-      <div className="max-w-8xl m-auto container px-4 md:px-6">
+      <div className="max-w-8xl mx-auto container px-4 md:px-6">
         <div className="space-y-8 text-center">
           <motion.h2
             className="text-3xl font-bold text-gray-100 tracking-tighter sm:text-4xl md:text-5xl"
@@ -33,7 +32,7 @@ export function Projects() {
           {projects.map((project) => (
             <motion.div
               key={project.id}
-              className="bg-gray-900 rounded-lg shadow-lg overflow-hidden"
+              className="bg-gray-900 rounded-lg shadow-lg overflow-hidden transform transition-transform duration-500 hover:scale-105 hover:shadow-xl"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -75,7 +74,7 @@ export function Projects() {
                     >
                       <Link
                         href={project.link}
-                        className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md shadow hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                        className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md shadow hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-transform duration-300 transform hover:scale-105"
                         prefetch={false}
                       >
                         View Project 🔗

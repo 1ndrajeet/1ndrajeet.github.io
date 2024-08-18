@@ -1,14 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from 'next/image'; // Import Image from next/image
+import Image from 'next/image';
 
 export function About() {
   return (
     <section id="about" className="w-full py-12 md:py-24 lg:py-32 bg-gray-900">
-      <div className="container max-w-8xl m-auto px-4 md:px-6">
+      <div className="container max-w-8xl mx-auto px-4 md:px-6">
         <div className="grid gap-8 md:grid-cols-2 items-center">
-          {/* Text Section */}
           <motion.div
             className="space-y-6"
             initial={{ opacity: 0, x: -50 }}
@@ -23,8 +22,8 @@ export function About() {
               <span className="text-emerald-400">
                 Diploma in Computer Engineering 🎓
               </span>{" "}
-              from Rajarambapu Institute of Technology. I am passionate about
-              <span className="text-emerald-400"> CyberSecurity</span> 🔒 and
+              at Rajarambapu Institute of Technology. I am passionate about{" "}
+              <span className="text-emerald-400">CyberSecurity</span> 🔒 and{" "}
               MERN stack development 💻. In addition to my technical skills, I
               have a strong interest in{" "}
               <span className="text-emerald-400">Chess ♟️</span>.
@@ -35,11 +34,9 @@ export function About() {
                 &quot;घटं भिन्द्यात् पटं छिन्द्यात् कुर्याद्रासभरोहणम् |<br /> येन
                 केन प्रकारेण प्रसिद्ध: पुरुषो भवेत् ||&quot;
               </span>
-              .
             </p>
           </motion.div>
 
-          {/* Image Section */}
           <motion.div
             className="flex justify-center items-center md:justify-end mt-8 md:mt-0"
             initial={{ opacity: 0, scale: 0.9 }}
@@ -48,11 +45,11 @@ export function About() {
           >
             <div className="relative w-full max-w-md">
               <Image
-                src="/0mk4r.jpg" // Replace with your image path
+                src="/0mk4r.jpg"
                 alt="Omkar Kulkarni"
                 className="w-full h-auto aspect-square object-cover rounded-lg shadow-lg transform transition-transform duration-500 hover:scale-105"
-                width={500} // Provide width for optimization
-                height={500} // Provide height for optimization
+                width={500}
+                height={500}
               />
             </div>
           </motion.div>

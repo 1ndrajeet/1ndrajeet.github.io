@@ -16,27 +16,26 @@ export default function Navbar() {
           <span className="text-lg font-bold">1ndrajeet</span>
         </Link>
 
-        {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-6">
-          <Link href="#home" className="text-gray-100 hover:text-emerald-300 underline-offset-4 hover:underline" prefetch={false}>
+          <Link href="#home" className="group text-gray-100 hover:text-emerald-300 underline-offset-4 hover:underline" prefetch={false}>
             Home
           </Link>
-          <Link href="#about" className="text-gray-100 hover:text-emerald-300 underline-offset-4 hover:underline" prefetch={false}>
+          <Link href="#about" className="group text-gray-100 hover:text-emerald-300 underline-offset-4 hover:underline" prefetch={false}>
             About
           </Link>
-          <Link href="#projects" className="text-gray-100 hover:text-emerald-300 underline-offset-4 hover:underline" prefetch={false}>
+          <Link href="#projects" className="group text-gray-100 hover:text-emerald-300 underline-offset-4 hover:underline" prefetch={false}>
             Projects
           </Link>
-          <Link href="#contact" className="text-gray-100 hover:text-emerald-300 underline-offset-4 hover:underline" prefetch={false}>
+          <Link href="#contact" className="group text-gray-100 hover:text-emerald-300 underline-offset-4 hover:underline" prefetch={false}>
             Contact
           </Link>
         </nav>
 
-        {/* Mobile Menu Button */}
         <button
           className="md:hidden text-gray-100 transition-transform duration-300 ease-in-out"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          onClick={toggleMenu}
           aria-label="Toggle menu"
+          aria-expanded={isMenuOpen}
         >
           {isMenuOpen ? (
             <XIcon className={`h-6 w-6 transform transition-transform duration-1000 ease-in-out ${isMenuOpen ? "rotate-180" : ""}`} />
@@ -46,21 +45,20 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Navigation */}
       <div
         className={`md:hidden ${isMenuOpen ? "block" : "hidden"} backdrop-blur-2xl mt-4 p-4`}
       >
         <nav className="flex flex-col space-y-4">
-          <Link href="#home" className="text-gray-100 hover:text-emerald-300 underline-offset-4 hover:underline" prefetch={false}>
+          <Link href="#home" className="group text-gray-100 hover:text-emerald-300 underline-offset-4 hover:underline" prefetch={false}>
             Home
           </Link>
-          <Link href="#about" className="text-gray-100 hover:text-emerald-300 underline-offset-4 hover:underline" prefetch={false}>
+          <Link href="#about" className="group text-gray-100 hover:text-emerald-300 underline-offset-4 hover:underline" prefetch={false}>
             About
           </Link>
-          <Link href="#projects" className="text-gray-100 hover:text-emerald-300 underline-offset-4 hover:underline" prefetch={false}>
+          <Link href="#projects" className="group text-gray-100 hover:text-emerald-300 underline-offset-4 hover:underline" prefetch={false}>
             Projects
           </Link>
-          <Link href="#contact" className="text-gray-100 hover:text-emerald-300 underline-offset-4 hover:underline" prefetch={false}>
+          <Link href="#contact" className="group text-gray-100 hover:text-emerald-300 underline-offset-4 hover:underline" prefetch={false}>
             Contact
           </Link>
         </nav>

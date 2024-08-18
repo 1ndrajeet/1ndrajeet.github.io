@@ -8,19 +8,19 @@ const socialLinks = [
     href: process.env.NEXT_PUBLIC_GITHUB_URL,
     icon: FaGithubAlt,
     label: "GitHub",
-    hoverColor: "text-white",
+    hoverClass: "hover:text-white",
   },
   {
     href: process.env.NEXT_PUBLIC_WHATSAPP_URL,
     icon: FaWhatsapp,
     label: "WhatsApp",
-    hoverColor: "text-emerald-500",
+    hoverClass: "hover:text-emerald-500",
   },
   {
     href: process.env.NEXT_PUBLIC_LINKEDIN_URL,
     icon: FaLinkedinIn,
     label: "LinkedIn",
-    hoverColor: "text-blue-600",
+    hoverClass: "hover:text-blue-600",
   },
 ];
 
@@ -36,14 +36,14 @@ const MotionSection = ({ children }) => (
 
 const FormInput = ({ id, name, type, label, required }) => (
   <div>
-    <label htmlFor={id} className="block text-gray-300">
+    <label htmlFor={id} className="block text-gray-300 mb-1">
       {label}
     </label>
     <input
       type={type}
       id={id}
       name={name}
-      className="w-full p-3 mt-1 bg-gray-700 text-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors duration-300"
+      className="w-full p-3 bg-gray-700 text-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-transform duration-300 transform hover:scale-105"
       required={required}
     />
   </div>
@@ -51,14 +51,14 @@ const FormInput = ({ id, name, type, label, required }) => (
 
 const FormTextarea = ({ id, name, label, rows, required }) => (
   <div>
-    <label htmlFor={id} className="block text-gray-300">
+    <label htmlFor={id} className="block text-gray-300 mb-1">
       {label}
     </label>
     <textarea
       id={id}
       name={name}
       rows={rows}
-      className="w-full p-3 mt-1 bg-gray-700 text-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors duration-300"
+      className="w-full p-3 bg-gray-700 text-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-transform duration-300 transform hover:scale-105"
       required={required}
     />
   </div>
@@ -66,7 +66,7 @@ const FormTextarea = ({ id, name, label, rows, required }) => (
 
 export const Contact = () => (
   <section id="contact" className="w-full py-12 md:py-24 lg:py-32 bg-gray-900">
-    <div className="container max-w-8xl m-auto px-4 md:px-6">
+    <div className="container max-w-8xl mx-auto px-4 md:px-6">
       <div className="space-y-8 text-center">
         <MotionSection>
           <h2 className="text-3xl font-bold text-gray-100 tracking-tighter sm:text-4xl md:text-5xl">
@@ -81,17 +81,19 @@ export const Contact = () => (
         </MotionSection>
         <MotionSection>
           <div className="flex justify-center space-x-6">
-            {socialLinks.map(({ href, icon: Icon, label, hoverColor }) => (
-              <a
+            {socialLinks.map(({ href, icon: Icon, label, hoverClass }) => (
+              <motion.a
                 key={label}
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`text-gray-400 hover:text-gray-100 transition-colors duration-300`}
+                className={`text-gray-400 ${hoverClass} transition-transform duration-300 transform hover:scale-110`}
                 aria-label={label}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <Icon className={`h-8 w-8 hover:${hoverColor} transition-colors duration-300`} />
-              </a>
+                <Icon className="h-8 w-8" />
+              </motion.a>
             ))}
           </div>
         </MotionSection>
@@ -116,12 +118,30 @@ export const Contact = () => (
               Send me a message
             </h3>
             <div className="space-y-4">
-              <FormInput id="name" name="name" type="text" label="Name" required />
-              <FormInput id="email" name="email" type="email" label="Email" required />
-              <FormTextarea id="message" name="message" label="Message" rows="4" required />
+              <FormInput
+                id="name"
+                name="name"
+                type="text"
+                label="Name"
+                required
+              />
+              <FormInput
+                id="email"
+                name="email"
+                type="email"
+                label="Email"
+                required
+              />
+              <FormTextarea
+                id="message"
+                name="message"
+                label="Message"
+                rows="4"
+                required
+              />
               <button
                 type="submit"
-                className="w-full py-2 bg-emerald-500 text-white rounded-md shadow hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 transition-colors duration-300"
+                className="w-full py-2 bg-emerald-500 text-white rounded-md shadow-md hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 transition-transform duration-300 transform hover:scale-105"
               >
                 Send Message
               </button>
