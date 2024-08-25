@@ -1,8 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const CustomCursor = () => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const cursorOutlineRef = useRef(null);
+  const cursorDotRef = useRef(null);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -14,29 +16,43 @@ const CustomCursor = () => {
   }, []);
 
   useEffect(() => {
-    const handleUpdateCursorPosition = () => {
-      document.querySelectorAll("[data-cursor-dot], [data-cursor-outline]").forEach((el) => {
-        el.style.left = `${cursorPosition.x}px`;
-        el.style.top = `${cursorPosition.y}px`;
-      });
-    };
+    if (cursorOutlineRef.current) {
+      const { x, y } = cursorPosition;
+      const outline = cursorOutlineRef.current;
 
-    requestAnimationFrame(handleUpdateCursorPosition);
+      // Update dot position directly
+      if (cursorDotRef.current) {
+        cursorDotRef.current.style.left = `${x}px`;
+        cursorDotRef.current.style.top = `${y}px`;
+      }
+
+      // Animate the outline
+      outline.animate(
+        [
+          { transform: `translate(${x-16}px, ${y-16}px)` },
+        ],
+        {
+          duration: 300,
+          fill: "forwards",
+          easing: "ease-out"
+        }
+      );
+    }
   }, [cursorPosition]);
 
   return (
-    <>
+    <div className="md:block hidden">
       <div
+        ref={cursorDotRef}
         className="fixed w-3 h-3 bg-gray-950 rounded-full z-50 pointer-events-none -translate-x-1/2 -translate-y-1/2"
         data-cursor-dot
-        style={{ left: `${cursorPosition.x}px`, top: `${cursorPosition.y}px` }}
       ></div>
       <div
-        className="fixed w-8 h-8 border-2 border-emerald-400 rounded-full z-50 pointer-events-none -translate-x-1/2 -translate-y-1/2 transition-transform duration-1000"
+        ref={cursorOutlineRef}
+        className="fixed w-8 h-8 border-2 border-emerald-400 rounded-full z-50 pointer-events-none -translate-x-1/2 -translate-y-1/2"
         data-cursor-outline
-        style={{ left: `${cursorPosition.x}px`, top: `${cursorPosition.y}px` }}
       ></div>
-    </>
+    </div>
   );
 };
 
