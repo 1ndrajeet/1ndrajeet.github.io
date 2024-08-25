@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Image from 'next/image';
 
 export function About() {
-  return (
+  return ( 
     <section id="about" className="w-full py-12 md:py-24 lg:py-32 bg-gray-900">
       <div className="container max-w-8xl mx-auto px-4 md:px-6">
         <div className="grid gap-8 md:grid-cols-2 items-center">
