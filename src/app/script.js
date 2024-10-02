@@ -19,14 +19,10 @@ const CustomCursor = () => {
     if (cursorOutlineRef.current) {
       const { x, y } = cursorPosition;
       const outline = cursorOutlineRef.current;
-
-      // Update dot position directly
       if (cursorDotRef.current) {
         cursorDotRef.current.style.left = `${x}px`;
         cursorDotRef.current.style.top = `${y}px`;
       }
-
-      // Animate the outline
       outline.animate(
         [
           { transform: `translate(${x-16}px, ${y-16}px)` },
