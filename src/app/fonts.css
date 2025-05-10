@@ -1,0 +1,42 @@
+/* Importing All Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Gotu&family=Roboto:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Lato:ital,wght@0,100..900;1,100..900&family=Inter:ital,wght@0,100..900;1,100..900&family=Merriweather:ital,wght@0,300..900;1,300..900&family=Hind:wght@300;400;500;600;700&family=Mukta:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&family=Tiro+Devanagari+Marathi:ital@0;1&display=swap');
+
+/* English Fonts */
+.Gotu{
+  font-family: "Gotu", 'times new roman', sans-serif;
+}
+.Roboto {
+  font-family: "Roboto", sans-serif;
+}
+.Montserrat {
+  font-family: "Montserrat", sans-serif;
+}
+.Poppins {
+  font-family: "Poppins", sans-serif;
+}
+.OpenSans {
+  font-family: "Open Sans", sans-serif;
+}
+.Lato {
+  font-family: "Lato", sans-serif;
+}
+.Inter {
+  font-family: "Inter", sans-serif;
+}
+.Merriweather {
+  font-family: "Merriweather", serif;
+}
+
+/* Devanagari Fonts */
+.Hind {
+  font-family: "Hind", sans-serif;
+}
+.Mukta {
+  font-family: "Mukta", sans-serif;
+}
+.NotoSansDevanagari {
+  font-family: "Noto Sans Devanagari", sans-serif;
+}
+.TiroDevanagariMarathi {
+  font-family: "Tiro Devanagari Marathi", serif;
+}
