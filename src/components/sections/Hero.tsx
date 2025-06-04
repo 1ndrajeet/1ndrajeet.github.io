@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { 
   Code, 
-  ChevronDown,
   Shield,
   Medal,
   Target,
@@ -79,7 +78,7 @@ export default function Hero() {
       />
 
       {/* Strategic code pattern background */}
-      <div className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none z-0">
+      <div className="absolute inset-0 overflow-hidden md:opacity-20 opacity-0 pointer-events-none z-0">
         <div className="font-mono text-xs text-neutral-900 dark:text-white p-8 transform">
           {Array.from({ length: 15 }).map((_, i) => (
             <div 
@@ -266,30 +265,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Tactical scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-        <Link href="#about">
-          <div 
-            className="flex flex-col items-center cursor-pointer group"
-            style={{ 
-              opacity: isLoaded ? 1 : 0,
-              transition: 'opacity 0.8s 1.6s',
-            }}
-          >
-            <span className="text-xs uppercase tracking-widest text-neutral-600 dark:text-neutral-400 mb-2 group-hover:text-amber-500 dark:group-hover:text-amber-400 transition-colors">
-              Enter The Domain
-            </span>
-            <div 
-              className="w-10 h-10 flex items-center justify-center border-2 border-neutral-400 dark:border-neutral-600 group-hover:border-amber-500 dark:group-hover:border-amber-400 transition-colors"
-              style={{
-                animation: "tacticalPulse 2s infinite"
-              }}
-            >
-              <ChevronDown className="w-5 h-5 text-neutral-600 dark:text-neutral-400 group-hover:text-amber-500 dark:group-hover:text-amber-400 transition-colors" />
-            </div>
-          </div>
-        </Link>
-      </div>
+      
 
       {/* Animation keyframes */}
       <style jsx global>{`

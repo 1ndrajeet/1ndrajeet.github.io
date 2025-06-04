@@ -5,7 +5,7 @@ import Projects from "@/components/sections/Projects";
 import React, { JSX, ReactNode, useEffect, useState } from "react";
 import Contact from "@/components/sections/Contact";
 import { Github, Linkedin, Twitter, IndianRupee } from "lucide-react";
-import { LoaderComponent } from "@/components/misc/loaders";
+import { LoaderLandingPage } from "@/components/misc/loaders";
 import CertificationsSection from "@/components/sections/Certification";
 
 // Interface for AboutDataItem
@@ -138,7 +138,7 @@ export default function Home() {
     fetchData();
   }, []);
 
-  if (isLoading) return <LoaderComponent />;
+  if (isLoading) return <LoaderLandingPage />;
 
   if (error) {
     return <ErrorComponent error={error} />;

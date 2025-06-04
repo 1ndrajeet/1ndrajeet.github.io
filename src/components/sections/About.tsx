@@ -1,343 +1,324 @@
 "use client";
+
 import { motion, useScroll, useTransform } from "framer-motion";
-import { StickyScroll } from "../ui/sticky-scroll-reveal";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
 import { useRef, useState, useEffect, ReactNode } from "react";
-
-// Define props interface for AboutMe component
-interface AboutMeProps {
-    aboutData: AboutDataItem[];
-}
-
-type ColorKey = "blue" | "emerald" | "rose" | "amber" | "indigo" | "cyan";
-
-const colorMapping = {
-    "blue": {
-        "dark": "bg-gradient-to-br from-blue-900/30 to-cyan-900/20",
-        "light": "bg-gradient-to-br from-blue-200/50 to-cyan-200/30"
-    },
-    "emerald": {
-        "dark": "bg-gradient-to-br from-emerald-900/30 to-green-900/20",
-        "light": "bg-gradient-to-br from-emerald-200/50 to-green-200/30"
-    },
-    "rose": {
-        "dark": "bg-gradient-to-br from-rose-900/30 to-pink-900/20",
-        "light": "bg-gradient-to-br from-rose-200/50 to-pink-200/30"
-    },
-    "amber": {
-        "dark": "bg-gradient-to-br from-amber-900/30 to-red-900/20",
-        "light": "bg-gradient-to-br from-amber-200/50 to-red-200/30"
-    },
-    "indigo": {
-        "dark": "bg-gradient-to-br from-indigo-900/30 to-purple-900/20",
-        "light": "bg-gradient-to-br from-indigo-200/50 to-purple-200/30"
-    },
-    "cyan": {
-        "dark": "bg-gradient-to-br from-cyan-900/30 to-emerald-900/20",
-        "light": "bg-gradient-to-br from-cyan-200/50 to-emerald-200/30"
-    },
-}
-
-interface ParticleProps {
-    id: number;
-    size: number;
-    x: number;
-    y: number;
-    opacity: number;
-    duration: number;
-}
+import { Code, Target, Heart, Lightbulb, Trophy, Rocket, PawPrint, ChevronRight, Star } from "lucide-react";
 
 interface AboutDataItem {
     title: string;
     description: ReactNode;
     image?: string;
     alt?: string;
-    bgColor: {
-        dark: string;
-        light: string;
-    };
     category: string;
     accent: string;
     icon: string;
-    quote?: string;
-    quoteNote?: string;
+    stats?: {
+        label: string;
+        value: string;
+    }[];
 }
+
+interface AboutMeProps {
+    aboutData: AboutDataItem[];
+}
+
+
 
 export default function AboutMe({ aboutData }: AboutMeProps) {
     const containerRef = useRef<HTMLElement>(null);
-    const [windowHeight, setWindowHeight] = useState(0);
-
-    useEffect(() => {
-        const handleResize = () => setWindowHeight(window.innerHeight);
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+    const [activeIndex, setActiveIndex] = useState(0);
 
     const { scrollYProgress } = useScroll({
         target: containerRef,
-        offset: ["start start", "end start"]
+        offset: ["start end", "end start"]
     });
 
-    const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-    const backgroundOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.7, 1, 0.7]);
+    const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+    const contentOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
-    // Particle generation for background
-    const generateParticles = (count: number): ParticleProps[] => {
-        return Array.from({ length: count }).map((_, i) => ({
-            id: i,
-            size: Math.random() * 3 + 1,
-            x: Math.random() * 100,
-            y: Math.random() * 100,
-            opacity: Math.random() * 0.5 + 0.1,
-            duration: Math.random() * 15 + 20
-        }));
-    };
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveIndex((prev) => (prev + 1) % aboutData.length);
+        }, 5000);
+        return () => clearInterval(interval);
+    }, [aboutData.length]);
 
-    const particles = generateParticles(40);
-
-    const renderContent = (item: AboutDataItem, index: number) => {
-        if (item.image) {
-            return (
-                <motion.div
-                    className="h-full w-full flex items-center justify-center rounded-2xl overflow-hidden relative group"
-                    whileHover={{ scale: 1.03, transition: { duration: 0.4 } }}
-                    initial={{ opacity: 0.8, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                >
-                    <motion.div
-                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-black/70 to-transparent flex items-end justify-center pb-6 z-10"
-                        initial={{ opacity: 0 }}
-                        whileHover={{ opacity: 1 }}
-                    >
-                        <span className="text-white text-sm font-medium px-4 py-2 rounded-full bg-black/20 backdrop-blur-sm">
-                            {item.icon} {item.category}
-                        </span>
-                    </motion.div>
-                    {/* Only show image on lg screens and above */}
-                    <div className="relative w-full h-full hidden md:block min-h-[400px]">
-                        <Image
-                            src={item.image}
-                            alt={item.alt || ""}
-                            fill
-                            className="object-scale-down opacity-90 group-hover:opacity-100 transition-opacity duration-500"
-                            sizes="(max-width: 768px) 100vw, 60vw"
-                            priority
-                            onError={() => console.error(`Failed to load image: ${item.image}`)}
-                        />
-                    </div>
-                    {/* Show a colored background on mobile */}
-                    <div className={`lg:hidden absolute inset-0 ${colorMapping[item.accent as ColorKey]?.light || ''} dark:${colorMapping[item.accent as ColorKey]?.dark || ''} flex items-center justify-center text-4xl`}>
-                        {item.icon}
-                    </div>
-                </motion.div>
-            );
-        }
-        return (
-            <>
-                <motion.div
-                    className="relative z-10 text-center  hidden  md:flex flex-col items-center justify-center w-full h-full max-w-2xl p-8"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.2 }}
-                >
-                    <div className={`w-20 h-20 flex items-center justify-center text-3xl rounded-full mb-6 ${getAccentColor(item.accent)}`}>
-                        {item.icon}
-                    </div>
-                    <blockquote className="italic text-lg md:text-xl font-light leading-relaxed text-neutral-800 dark:text-neutral-100">
-                        &quot;{item.quote}&quot;
-                        <span className="block mt-6 text-xs not-italic font-normal text-neutral-600 dark:text-neutral-300">
-                            {item.quoteNote}
-                        </span>
-                    </blockquote>
-
-                </motion.div>
-                <div className={`lg:hidden absolute inset-0 ${colorMapping[item.accent as ColorKey]?.light || ''} dark:${colorMapping[item.accent as ColorKey]?.dark || ''} flex items-center justify-center text-4xl`}>
-                    {item.icon}
-                </div>
-            </>
-        );
-    };
-
-    // Helper function for accent colors
-    const getAccentColor = (accent: string) => {
-        const colors = {
-            violet: "bg-violet-500/10 text-violet-500 dark:bg-violet-500/20 dark:text-violet-300",
-            cyan: "bg-cyan-500/10 text-cyan-500 dark:bg-cyan-500/20 dark:text-cyan-300",
-            amber: "bg-amber-500/10 text-amber-500 dark:bg-amber-500/20 dark:text-amber-300",
-            emerald: "bg-emerald-500/10 text-emerald-500 dark:bg-emerald-500/20 dark:text-emerald-300",
-            indigo: "bg-indigo-500/10 text-indigo-500 dark:bg-indigo-500/20 dark:text-indigo-300"
+    const getIconComponent = (iconName: string) => {
+        const icons = {
+            "💻": <Code className="w-5 h-5" />,
+            "🎯": <Target className="w-5 h-5" />,
+            "❤️": <Heart className="w-5 h-5" />,
+            "💡": <Lightbulb className="w-5 h-5" />,
+            "🏆": <Trophy className="w-5 h-5" />,
+            "🚀": <Rocket className="w-5 h-5" />,
+            "♟️": <PawPrint className="w-5 h-5" />
         };
-        return colors[accent as keyof typeof colors] || colors.violet;
+        return icons[iconName as keyof typeof icons] || <Code className="w-5 h-5" />;
     };
 
-    const content = aboutData.map((item, index) => ({
-        title: item.title,
-        description: (<div className="text-justify">{item.description}</div>),
-        content: renderContent(item, index) as ReactNode,
-    }));
+    const getAccentColors = (accent: string) => {
+        const colors = {
+            blue: {
+                gradient: "from-blue-500 via-blue-600 to-indigo-600",
+                bg: "bg-blue-500/10",
+                border: "border-blue-500/20",
+                text: "text-blue-600",
+                glow: "shadow-blue-500/25"
+            },
+            emerald: {
+                gradient: "from-emerald-500 via-green-600 to-teal-600",
+                bg: "bg-emerald-500/10",
+                border: "border-emerald-500/20",
+                text: "text-emerald-600",
+                glow: "shadow-emerald-500/25"
+            },
+            purple: {
+                gradient: "from-purple-500 via-violet-600 to-indigo-600",
+                bg: "bg-purple-500/10",
+                border: "border-purple-500/20",
+                text: "text-purple-600",
+                glow: "shadow-purple-500/25"
+            },
+            amber: {
+                gradient: "from-amber-500 via-orange-500 to-red-500",
+                bg: "bg-amber-500/10",
+                border: "border-amber-500/20",
+                text: "text-amber-600",
+                glow: "shadow-amber-500/25"
+            }
+        };
+        return colors[accent as keyof typeof colors] || colors.blue;
+    };
+
+    const currentColors = getAccentColors(aboutData[activeIndex].accent);
 
     return (
         <section
             id="about"
             ref={containerRef}
-            className="relative min-h-screen pt-10 w-full flex items-center justify-center overflow-hidden bg-neutral-50 dark:bg-neutral-950"
-            style={{ height: `${Math.max(windowHeight, 800)}px` }}
+            className="relative min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 overflow-hidden"
         >
-            {/* Transition element from Hero section */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8 }}
-                className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white via-neutral-100/80 to-transparent dark:from-neutral-900 dark:via-neutral-900/80 dark:to-transparent z-10 pointer-events-none"
-            />
-
-            {/* Animated particles - slightly fewer than original for better performance */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                {particles.map((particle) => (
-                    <motion.div
-                        key={particle.id}
-                        className={cn(
-                            "absolute rounded-full dark:bg-white bg-neutral-800"
-                        )}
-                        style={{
-                            width: `${particle.size}px`,
-                            height: `${particle.size}px`,
-                            left: `${particle.x}%`,
-                            top: `${particle.y}%`,
-                            opacity: particle.opacity,
-                        }}
-                        animate={{
-                            y: ["0%", "100%"],
-                            opacity: [particle.opacity, 0],
-                        }}
-                        transition={{
-                            duration: particle.duration,
-                            repeat: Infinity,
-                            ease: "linear",
-                            delay: -particle.duration * Math.random(),
-                        }}
-                    />
-                ))}
-            </div>
-
             {/* Animated background elements */}
             <motion.div
-                style={{ y, opacity: backgroundOpacity }}
+                style={{ y: backgroundY }}
                 className="absolute inset-0 pointer-events-none"
             >
-                <div className={cn(
-                    "absolute top-20 left-20 w-96 h-96 rounded-full blur-3xl",
-                    "bg-violet-200/30 dark:bg-violet-900/20"
-                )} />
-                <div className={cn(
-                    "absolute -bottom-20 -right-20 w-96 h-96 rounded-full blur-3xl",
-                    "bg-cyan-200/30 dark:bg-cyan-900/20"
-                )} />
-                {/* Added amber blur to match Hero's amber accents */}
-                <div className={cn(
-                    "absolute top-1/3 right-1/4 w-80 h-80 rounded-full blur-3xl",
-                    "bg-amber-200/30 dark:bg-amber-900/20"
-                )} />
+                <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-gradient-to-br from-blue-400/20 to-purple-600/20 blur-3xl" />
+                <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-gradient-to-br from-emerald-400/20 to-blue-600/20 blur-3xl" />
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-gradient-to-br from-purple-400/10 to-pink-600/10 blur-3xl" />
             </motion.div>
 
-            {/* Grid pattern */}
-            <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]">
-                <div className={cn(
-                    "absolute inset-0",
-                    "[background:radial-gradient(circle_at_center,_#4f46e520_0%,transparent_70%)] dark:[background:radial-gradient(circle_at_center,_#4f46e510_0%,transparent_70%)]"
-                )} />
-                <div className={cn(
-                    "absolute inset-0 bg-center [mask-image:linear-gradient(180deg,transparent_10%,rgba(0,0,0,0.5)_80%)]",
-                    "opacity-15 dark:opacity-10"
-                )} />
-            </div>
+            {/* Grid pattern overlay */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,_theme(colors.slate.200/0.3)_1px,_transparent_1px),linear-gradient(to_bottom,_theme(colors.slate.200/0.3)_1px,_transparent_1px)] bg-[size:40px_40px] dark:bg-[linear-gradient(to_right,_theme(colors.slate.800/0.3)_1px,_transparent_1px),linear-gradient(to_bottom,_theme(colors.slate.800/0.3)_1px,_transparent_1px)]" />
 
-            {/* Geometric decorations - simplified */}
-            <div className="absolute top-10 right-10 w-20 h-20 border-4 border-amber-500/20 rounded-full hidden md:block"></div>
-            <div className="absolute bottom-20 left-10 w-10 h-10 border-2 border-amber-500/30 rounded-md rotate-45 hidden md:block"></div>
-
-            <div className="relative z-10 w-full h-full max-w-7xl mx-auto px-4 md:px-8 lg:px-12 flex flex-col justify-center">
+            <motion.div
+                style={{ opacity: contentOpacity }}
+                className="relative z-10 container mx-auto px-6 py-20 max-w-7xl"
+            >
+                {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
-                    className="w-full"
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className="text-center mb-20"
                 >
-                    <div className="text-center mb-8">
-                        <motion.div className="inline-flex items-center justify-center">
-                            <motion.span
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.5 }}
-                                className={cn(
-                                    "inline-block px-3 py-1 text-xs font-medium rounded-full mb-4",
-                                    "bg-amber-200/50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-200"
-                                )}
+                    <motion.div
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200 dark:border-slate-700 shadow-lg mb-6"
+                    >
+                        <Star className="w-4 h-4 text-amber-500" />
+                        <span className="text-sm font-medium text-slate-700 dark:text-slate-300">About Me</span>
+                    </motion.div>
+
+                    <motion.h1
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.3 }}
+                        className="text-5xl md:text-7xl font-black text-slate-900 dark:text-white mb-6 leading-tight"
+                    >
+                        My{" "}
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-amber-600">
+                            Journey
+                        </span>
+                    </motion.h1>
+
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                        className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed"
+                    >
+                        Crafting digital experiences that blend innovation with functionality,
+                        one project at a time.
+                    </motion.p>
+                </motion.div>
+
+                {/* Main content */}
+                <div className="grid lg:grid-cols-12 gap-12 items-start">
+                    {/* Left sidebar - Navigation */}
+                    <div className="lg:col-span-4 space-y-4">
+                        <motion.h3
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6, delay: 0.5 }}
+                            className="text-lg font-semibold text-slate-700 dark:text-slate-300 mb-6"
+                        >
+                            Areas of Expertise
+                        </motion.h3>
+
+                        {aboutData.map((item, index) => (
+                            <motion.button
+                                key={index}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
+                                onClick={() => setActiveIndex(index)}
+                                className={`w-full text-left p-4 rounded-2xl transition-all duration-300 group ${activeIndex === index
+                                        ? `bg-white dark:bg-slate-800 shadow-xl border-l-4 ${getAccentColors(item.accent).border.replace('/20', '')} ${getAccentColors(item.accent).glow} shadow-2xl`
+                                        : 'bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 hover:shadow-lg border-l-4 border-transparent'
+                                    }`}
                             >
-                                <span className="flex items-center gap-1">
-                                    <span className="relative flex h-2 w-2">
-                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
-                                    </span>
-                                    About Me
-                                </span>
-                            </motion.span>
+                                <div className="flex items-center gap-4">
+                                    <div className={`p-3 rounded-xl ${activeIndex === index
+                                            ? `bg-gradient-to-br ${getAccentColors(item.accent).gradient} text-white`
+                                            : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400'
+                                        } transition-all duration-300`}>
+                                        {getIconComponent(item.icon)}
+                                    </div>
+                                    <div className="flex-1">
+                                        <h4 className={`font-semibold ${activeIndex === index
+                                                ? 'text-slate-900 dark:text-white'
+                                                : 'text-slate-700 dark:text-slate-300'
+                                            }`}>
+                                            {item.category}
+                                        </h4>
+                                        <p className="text-sm text-slate-500 dark:text-slate-400 truncate">
+                                            {item.title}
+                                        </p>
+                                    </div>
+                                    <ChevronRight className={`w-5 h-5 transition-transform duration-300 ${activeIndex === index
+                                            ? `${getAccentColors(item.accent).text} rotate-90`
+                                            : 'text-slate-400 group-hover:translate-x-1'
+                                        }`} />
+                                </div>
+                            </motion.button>
+                        ))}
+                    </div>
+
+                    {/* Right content area */}
+                    <div className="lg:col-span-8">
+                        <motion.div
+                            key={activeIndex}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6 }}
+                            className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/20 dark:border-slate-700/50"
+                        >
+                            {/* Content header */}
+                            <div className="flex flex-col md:flex-row md:items-center gap-6 mb-8">
+                                <div className="flex-1">
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.5, delay: 0.1 }}
+                                        className="flex items-center gap-3 mb-3"
+                                    >
+                                        <div className={`p-2 rounded-lg bg-gradient-to-br ${currentColors.gradient} text-white shadow-lg`}>
+                                            {getIconComponent(aboutData[activeIndex].icon)}
+                                        </div>
+                                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${currentColors.bg} ${currentColors.text} border ${currentColors.border}`}>
+                                            {aboutData[activeIndex].category}
+                                        </span>
+                                    </motion.div>
+
+                                    <motion.h2
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.5, delay: 0.2 }}
+                                        className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4"
+                                    >
+                                        {aboutData[activeIndex].title}
+                                    </motion.h2>
+                                </div>
+
+                                {/* Image */}
+                                {aboutData[activeIndex].image && (
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{ duration: 0.6, delay: 0.2 }}
+                                        className="relative w-24 h-24 md:w-32 md:h-32 flex-shrink-0"
+                                    >
+                                        <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${currentColors.gradient} opacity-20 blur-xl`} />
+                                        <img
+                                            src={aboutData[activeIndex].image}
+                                            alt={aboutData[activeIndex].alt}
+                                            className="relative w-full h-full object-cover rounded-2xl shadow-xl border-4 border-white dark:border-slate-700"
+                                        />
+                                    </motion.div>
+                                )}
+                            </div>
+
+                            {/* Description */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 15 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.6, delay: 0.3 }}
+                                className="prose prose-lg prose-slate dark:prose-invert max-w-none mb-8"
+                            >
+                                <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-justify">
+                                    {aboutData[activeIndex].description}
+                                </p>
+                            </motion.div>
+
+                            {/* Stats */}
+                            {aboutData[activeIndex].stats && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.6, delay: 0.4 }}
+                                    className="grid grid-cols-3 gap-4"
+                                >
+                                    {aboutData[activeIndex].stats!.map((stat, idx) => (
+                                        <motion.div
+                                            key={idx}
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: 0.5 + idx * 0.1 }}
+                                            className="text-center p-4 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600"
+                                        >
+                                            <div className={`text-2xl font-bold ${currentColors.text}`}>
+                                                {stat.value}
+                                            </div>
+                                            <div className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                                                {stat.label}
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </motion.div>
+                            )}
                         </motion.div>
 
-                        <h2 className={cn(
-                            "text-4xl md:text-6xl font-bold text-center tracking-tight",
-                            "text-neutral-800 dark:text-white"
-                        )}>
-                            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600">Journey</span>
-                        </h2>
-
-                        <div className="flex items-center justify-center mt-6">
-                            <motion.div
-                                initial={{ scaleX: 0 }}
-                                animate={{ scaleX: 1 }}
-                                transition={{ duration: 0.7, delay: 0.3 }}
-                                className="w-16 h-1 bg-gradient-to-r from-amber-500 to-amber-600"
-                            />
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.7, delay: 0.5 }}
-                                className="mx-3 text-neutral-400 dark:text-neutral-500"
-                            >
-                                •
-                            </motion.div>
-                            <motion.div
-                                initial={{ scaleX: 0 }}
-                                animate={{ scaleX: 1 }}
-                                transition={{ duration: 0.7, delay: 0.3 }}
-                                className="w-16 h-1 bg-gradient-to-r from-amber-600 to-amber-500"
-                            />
+                        {/* Progress indicators */}
+                        <div className="flex justify-center mt-8 gap-2">
+                            {aboutData.map((_, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setActiveIndex(index)}
+                                    className={`h-2 rounded-full transition-all duration-300 ${activeIndex === index
+                                            ? `w-8 bg-gradient-to-r ${currentColors.gradient}`
+                                            : 'w-2 bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500'
+                                        }`}
+                                />
+                            ))}
                         </div>
-
-                        <motion.p
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: 0.4 }}
-                            className="max-w-2xl mx-auto mt-6 text-neutral-600 dark:text-neutral-400 text-sm md:text-base"
-                        >
-                            Crafting digital experiences that blend innovation with functionality
-                        </motion.p>
                     </div>
+                </div>
 
-                    <div className="h-[80vh]">
-                        <StickyScroll
-                            content={content}
-                            contentClassName="flex items-center text-justify justify-center"
-                        />
-                    </div>
-                </motion.div>
-            </div>
+              
+            </motion.div>
         </section>
     );
 }
