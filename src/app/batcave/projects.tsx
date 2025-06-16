@@ -1,3 +1,4 @@
+// src/app/batcave/projects.tsx
 'use client';
 
 import { useState } from 'react';
@@ -9,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { ProjectType, CollectionType, projectCategories, projectTypes, projectAccents, AboutType } from './page'
+import { ProjectType, CollectionType, projectCategories, projectTypes, projectAccents, AboutType } from './types';
 
 type ProjectsProps = {
   projects: ProjectType[];
@@ -69,7 +70,7 @@ export default function Projects({ projects, setData, setMessage, isSubmitting, 
     addItem<ProjectType>('project_data', newProject, (result) => {
       setData(prev => ({
         ...prev,
-        projects: [...prev.projects, { ...newProject, id: result.id } as ProjectType],
+        projects: [...prev.projects, { ...newProject, _id: result.id } as ProjectType],
       }));
       setNewProject({});
       setProjectDialogOpen(false);

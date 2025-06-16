@@ -1,3 +1,4 @@
+// src/app/batcave/page.ts
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -6,48 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Projects from './projects';
 import About from './about';
-
-// Shared Types
-export type ProjectType = {
-  _id: string;
-  title: string;
-  description: string;
-  category: string;
-  type: string;
-  image: string;
-  alt: string;
-  link: string;
-  tech: string[];
-  accentColor: string;
-  icon: string;
-};
-
-export type AboutType = {
-  _id: string;
-  title: string;
-  description: string;
-  category: string;
-  image?: string;
-  alt?: string;
-  bgColor?: object;
-  accent?: string;
-  icon?: string;
-  quote?: string;
-  quoteNote?: string;
-};
-
-export type DataState = {
-  projects: ProjectType[];
-  about: AboutType[];
-};
-
-export type CollectionType = 'project_data' | 'about_data';
-
-export const projectCategories = ["Industry-Grade", "Freelance", "Practice"];
-export const projectTypes = ["Web", "App", "Native", "Design", "Cross-Platform", "AI"];
-export const projectAccents = ["blue", "emerald", "rose", "amber", "purple"];
-export const aboutCategories = ["Achievement", "Current", "Philosophy", "Foundation"];
-export const accents = ["blue", "emerald", "rose", "amber", "indigo", "cyan"];
+import { DataState } from './types';
 
 export default function BatcaveAdmin() {
   const [data, setData] = useState<DataState>({ projects: [], about: [] });
@@ -77,7 +37,7 @@ export default function BatcaveAdmin() {
         const fetchedData = await res.json();
         setData({
           projects: fetchedData.projects || [],
-          about: fetchedData.about || []
+          about: fetchedData.about || [],
         });
       } catch (error) {
         setMessage('Error loading data');
@@ -92,7 +52,7 @@ export default function BatcaveAdmin() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-950 text-gray-200 flex flex-col items-center justify-center">
-        <div className="animate-pulse flex flex-col items-center">
+        <div className="animate-pulse flex flex-col">
           <span className="text-yellow-500 text-4xl">🦇</span>
           <p className="mt-4 text-yellow-500 font-bold">Loading the Batcave...</p>
         </div>

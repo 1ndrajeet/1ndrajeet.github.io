@@ -1,3 +1,4 @@
+// src/app/batcave/about.tsx
 'use client';
 
 import { useState } from 'react';
@@ -9,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { AboutType, CollectionType, aboutCategories, accents,ProjectType } from './page';
+import { AboutType, CollectionType, aboutCategories, accents, ProjectType } from './types';
 
 type AboutProps = {
   about: AboutType[];
