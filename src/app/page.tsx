@@ -7,6 +7,7 @@ import Contact from "@/components/sections/Contact";
 import { Github, Linkedin, Twitter, IndianRupee } from "lucide-react";
 import { LoaderLandingPage } from "@/components/misc/loaders";
 import CertificationsSection from "@/components/sections/Certification";
+import { Header } from "@/components/header";
 
 // Interface for AboutDataItem
 interface AboutDataItem {
@@ -146,6 +147,8 @@ export default function Home() {
 
   return (
     <>
+    
+    <Header />
       <Hero />
       <div id="about" className="">
         <AboutMe aboutData={data.about} />

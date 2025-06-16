@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState, useEffect, ReactNode } from "react";
-import { Code, Target, Heart, Lightbulb, Trophy, Rocket, PawPrint, ChevronRight, Star } from "lucide-react";
+import { Code, Target, Heart, Lightbulb, Trophy, Rocket, ChevronRight, Star, PuzzleIcon, CrownIcon, DicesIcon } from "lucide-react";
 
 interface AboutDataItem {
     title: string;
@@ -51,7 +51,9 @@ export default function AboutMe({ aboutData }: AboutMeProps) {
             "💡": <Lightbulb className="w-5 h-5" />,
             "🏆": <Trophy className="w-5 h-5" />,
             "🚀": <Rocket className="w-5 h-5" />,
-            "♟️": <PawPrint className="w-5 h-5" />
+            "♟️ ": <CrownIcon className="w-5 h-5" />,
+            "🧩": <PuzzleIcon className="w-5 h-5" />,
+            "🎲": <DicesIcon className="w-5 h-5"/>
         };
         return icons[iconName as keyof typeof icons] || <Code className="w-5 h-5" />;
     };
@@ -96,7 +98,7 @@ export default function AboutMe({ aboutData }: AboutMeProps) {
         <section
             id="about"
             ref={containerRef}
-            className="relative min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800 overflow-hidden"
+            className="relative min-h-screen dark:bg-black overflow-hidden"
         >
             {/* Animated background elements */}
             <motion.div
@@ -165,7 +167,7 @@ export default function AboutMe({ aboutData }: AboutMeProps) {
                             transition={{ duration: 0.6, delay: 0.5 }}
                             className="text-lg font-semibold text-slate-700 dark:text-slate-300 mb-6"
                         >
-                            Areas of Expertise
+                            Navigation
                         </motion.h3>
 
                         {aboutData.map((item, index) => (
@@ -176,21 +178,21 @@ export default function AboutMe({ aboutData }: AboutMeProps) {
                                 transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
                                 onClick={() => setActiveIndex(index)}
                                 className={`w-full text-left p-4 rounded-2xl transition-all duration-300 group ${activeIndex === index
-                                        ? `bg-white dark:bg-slate-800 shadow-xl border-l-4 ${getAccentColors(item.accent).border.replace('/20', '')} ${getAccentColors(item.accent).glow} shadow-2xl`
-                                        : 'bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 hover:shadow-lg border-l-4 border-transparent'
+                                    ? `bg-white dark:bg-slate-800 shadow-xl border-l-4 ${getAccentColors(item.accent).border.replace('/20', '')} ${getAccentColors(item.accent).glow} shadow-2xl`
+                                    : 'bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 hover:shadow-lg border-l-4 border-transparent'
                                     }`}
                             >
                                 <div className="flex items-center gap-4">
                                     <div className={`p-3 rounded-xl ${activeIndex === index
-                                            ? `bg-gradient-to-br ${getAccentColors(item.accent).gradient} text-white`
-                                            : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400'
+                                        ? `bg-gradient-to-br ${getAccentColors(item.accent).gradient} text-white`
+                                        : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400'
                                         } transition-all duration-300`}>
                                         {getIconComponent(item.icon)}
                                     </div>
                                     <div className="flex-1">
                                         <h4 className={`font-semibold ${activeIndex === index
-                                                ? 'text-slate-900 dark:text-white'
-                                                : 'text-slate-700 dark:text-slate-300'
+                                            ? 'text-slate-900 dark:text-white'
+                                            : 'text-slate-700 dark:text-slate-300'
                                             }`}>
                                             {item.category}
                                         </h4>
@@ -199,8 +201,8 @@ export default function AboutMe({ aboutData }: AboutMeProps) {
                                         </p>
                                     </div>
                                     <ChevronRight className={`w-5 h-5 transition-transform duration-300 ${activeIndex === index
-                                            ? `${getAccentColors(item.accent).text} rotate-90`
-                                            : 'text-slate-400 group-hover:translate-x-1'
+                                        ? `${getAccentColors(item.accent).text} rotate-90`
+                                        : 'text-slate-400 group-hover:translate-x-1'
                                         }`} />
                                 </div>
                             </motion.button>
@@ -308,8 +310,8 @@ export default function AboutMe({ aboutData }: AboutMeProps) {
                                     key={index}
                                     onClick={() => setActiveIndex(index)}
                                     className={`h-2 rounded-full transition-all duration-300 ${activeIndex === index
-                                            ? `w-8 bg-gradient-to-r ${currentColors.gradient}`
-                                            : 'w-2 bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500'
+                                        ? `w-8 bg-gradient-to-r ${currentColors.gradient}`
+                                        : 'w-2 bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500'
                                         }`}
                                 />
                             ))}
@@ -317,7 +319,7 @@ export default function AboutMe({ aboutData }: AboutMeProps) {
                     </div>
                 </div>
 
-              
+
             </motion.div>
         </section>
     );

@@ -8,7 +8,7 @@ import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { SparklesCore } from "../ui/sparkles";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
-import { ImageOff } from "lucide-react";
+import { Award, Github, Globe, ImageOff } from "lucide-react";
 
 // Types
 type AccentColor = "blue" | "emerald" | "rose" | "amber" | "purple";
@@ -22,6 +22,8 @@ interface Project {
   image: string;
   alt: string;
   link: string;
+  repoLink?: string;
+  certificateLink?: string;
   tech: string[];
   accentColor: AccentColor;
   icon: string;
@@ -133,38 +135,89 @@ const ProjectCard = ({
         getColorClass(project.accentColor, "shadow")
       )}
     >
-      <Link href={project.link} className="block">
-        <div className="relative h-40 overflow-hidden">
-          {imageError[project.title] ? (
-            <div className="absolute inset-0 flex items-center justify-center bg-muted">
-              <div className="flex flex-col items-center text-muted-foreground">
-                <ImageOff size={32} className="mb-2" />
-                <span className="text-xs">{project.alt}</span>
-              </div>
+      {/* Image Section */}
+      <div className="relative h-40 overflow-hidden">
+        {imageError[project.title] ? (
+          <div className="absolute inset-0 flex items-center justify-center bg-muted">
+            <div className="flex flex-col items-center text-muted-foreground">
+              <ImageOff size={32} className="mb-2" />
+              <span className="text-xs">{project.alt}</span>
             </div>
-          ) : (
-            <Image
-              src={project.image}
-              alt={project.alt}
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              onError={() => onImageError(project.title)}
-              priority={index < 3}
-            />
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent group-hover:opacity-90 transition-opacity" />
-          <span
-            className={`absolute top-3 left-3 px-3 py-1 text-xs font-medium rounded-full backdrop-blur-sm ${getColorClass(project.accentColor, "bg")} text-white`}
-          >
-            {project.type}
-          </span>
-        </div>
+          </div>
+        ) : (
+          <Image
+            src={project.image}
+            alt={project.alt}
+            fill
+            className="object-cover transition-all duration-300 group-hover:scale-105 group-hover:blur-sm"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            onError={() => onImageError(project.title)}
+            priority={index < 3}
+          />
+        )}
+        
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-90 transition-opacity duration-300" />
+        
+        {/* Type Badge */}
+        <span
+          className={`absolute top-3 left-3 px-3 py-1 text-xs font-medium rounded-full backdrop-blur-sm ${getColorClass(project.accentColor, "bg")} text-white`}
+        >
+          {project.type}
+        </span>
 
+        {/* Action Icons - Show on Hover */}
+        <div className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-all duration-300">
+          {project.repoLink && (
+            <motion.a
+              href={project.repoLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="p-3 bg-white/20 backdrop-blur-sm rounded-full border border-white/30 hover:bg-white/30 transition-all duration-200"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Github size={20} className="text-white" />
+            </motion.a>
+          )}
+          
+          {project.certificateLink && (
+            <motion.a
+              href={project.certificateLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="p-3 bg-white/20 backdrop-blur-sm rounded-full border border-white/30 hover:bg-white/30 transition-all duration-200"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Award size={20} className="text-white" />
+            </motion.a>
+          )}
+          
+          {project.link && (
+            <motion.a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className={`p-3 backdrop-blur-sm rounded-full border border-white/30 transition-all duration-200 ${getColorClass(project.accentColor, "bg")} text-white hover:opacity-90`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Globe size={20} />
+            </motion.a>
+          )}
+        </div>
+      </div>
+
+      {/* Content Section */}
+      <Link href={project.link}>
         <div className="p-5">
           <div className="flex items-center gap-2 mb-2">
             <span className="text-xl">{project.icon}</span>
-            <h4 className="text-lg font-semibold text-card-foreground">
+            <h4 className="text-lg font-semibold text-card-foreground hover:text-primary transition-colors">
               {project.title}
             </h4>
           </div>
@@ -190,15 +243,15 @@ const ProjectCard = ({
             ))}
           </div>
         </div>
-
-        <div
-          className={cn(
-            "absolute bottom-0 left-0 h-1 w-0 group-hover:w-full",
-            getColorClass(project.accentColor, "bg"),
-            "transition-all duration-300"
-          )}
-        />
       </Link>
+
+      <div
+        className={cn(
+          "absolute bottom-0 left-0 h-1 w-0 group-hover:w-full",
+          getColorClass(project.accentColor, "bg"),
+          "transition-all duration-300"
+        )}
+      />
     </motion.div>
   );
 };
@@ -394,7 +447,7 @@ export default function Projects({ projectData }: ProjectDataProps) {
   const groupedProjects = groupProjectsByCategory(filteredProjects);
 
   return (
-    <section className="relative w-full py-12 overflow-hidden bg-background">
+    <section className="relative w-full py-12 overflow-hidden dark:bg-black">
       {/* Background Sparkles */}
       <div className="absolute inset-0 w-full h-full -z-10">
         <SparklesCore

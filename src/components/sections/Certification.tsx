@@ -25,7 +25,7 @@ export default function CertificationsSection({ certificates }: { certificates: 
   };
 
   return (
-    <section className="relative w-full py-12 overflow-hidden bg-neutral-100 dark:bg-neutral-900">
+    <section className="relative w-full py-12 overflow-hidden dark:bg-black">
       {/* Background Sparkles */}
       <div className="absolute inset-0 -z-10">
         <SparklesCore

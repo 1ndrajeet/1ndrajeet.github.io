@@ -70,7 +70,7 @@ export default function Hero() {
       
       {/* Dynamic background mask */}
       <div 
-        className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-amber-500/10 to-amber-500/5 z-0 backdrop-blur-3xl"
+        className="absolute inset-0 dark:bg-black z-0 backdrop-blur-3xl"
         style={{
           opacity: backgroundMaskOpacity,
           transform: `translateY(${scrollPosition * 0.1}px)`,

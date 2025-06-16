@@ -111,7 +111,7 @@ export default function ContactMe({ socialLinks }: { socialLinks: SocialLink[] }
                 <SparklesCore
                     id="contact-sparkles"
                     background="transparent"
-                    minSize={0.6}
+                    minSize={0.8}
                     maxSize={1.4}
                     particleDensity={80}
                     className="w-full h-full"
