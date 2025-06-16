@@ -3,7 +3,6 @@ import {  Poppins } from "next/font/google";
 import "./globals.css";
 import "./fonts.css";
 import { ThemeProvider } from "next-themes";
-import { Header } from "@/components/header";
 import { ClerkProvider } from "@clerk/nextjs";
 
 const font = Poppins({
