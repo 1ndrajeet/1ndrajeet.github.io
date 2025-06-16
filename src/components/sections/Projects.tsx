@@ -106,12 +106,13 @@ const groupProjectsByCategory = (projects: Project[]): Record<string, Project[]>
 };
 
 // Component for project card
+
 const ProjectCard = ({
   project,
   index,
   catIndex,
   imageError,
-  onImageError
+  onImageError,
 }: {
   project: Project;
   index: number;
@@ -120,6 +121,9 @@ const ProjectCard = ({
   onImageError: (projectTitle: string) => void;
 }) => {
   const { theme } = useTheme();
+  const [isIconsVisible, setIsIconsVisible] = useState(false);
+
+  const toggleIcons = () => setIsIconsVisible((prev) => !prev);
 
   return (
     <motion.div
@@ -128,19 +132,19 @@ const ProjectCard = ({
       whileHover={{ y: -5 }}
       transition={{ delay: catIndex * 0.1 + index * 0.05 }}
       className={cn(
-        "relative rounded-xl overflow-hidden group",
-        "bg-card",
-        "border border-border",
-        "shadow-md hover:shadow-lg transition-all duration-300",
-        getColorClass(project.accentColor, "shadow")
+        "relative rounded-lg overflow-hidden group bg-card border border-border",
+        "shadow-sm hover:shadow-md transition-all duration-300",
+        getColorClass(project.accentColor, "shadow"),
+        "cursor-pointer"
       )}
+      onClick={toggleIcons}
     >
       {/* Image Section */}
-      <div className="relative h-40 overflow-hidden">
+      <div className="relative h-36 overflow-hidden">
         {imageError[project.title] ? (
           <div className="absolute inset-0 flex items-center justify-center bg-muted">
             <div className="flex flex-col items-center text-muted-foreground">
-              <ImageOff size={32} className="mb-2" />
+              <ImageOff size={24} className="mb-1" />
               <span className="text-xs">{project.alt}</span>
             </div>
           </div>
@@ -149,105 +153,124 @@ const ProjectCard = ({
             src={project.image}
             alt={project.alt}
             fill
-            className="object-cover transition-all duration-300 group-hover:scale-105 group-hover:blur-sm"
+            className={cn(
+              "object-cover transition-all duration-300",
+              (isIconsVisible || "group-hover") && "scale-105 blur-sm"
+            )}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             onError={() => onImageError(project.title)}
             priority={index < 3}
           />
         )}
-        
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-90 transition-opacity duration-300" />
-        
-        {/* Type Badge */}
+        <div
+          className={cn(
+            "absolute inset-0 bg-gradient-to-t from-black/60 to-transparent",
+            "opacity-0 transition-opacity duration-300",
+            isIconsVisible && "opacity-90",
+            "group-hover:opacity-90"
+          )}
+        />
         <span
-          className={`absolute top-3 left-3 px-3 py-1 text-xs font-medium rounded-full backdrop-blur-sm ${getColorClass(project.accentColor, "bg")} text-white`}
+          className={cn(
+            "absolute top-2 left-2 px-2 py-0.5 text-xs font-medium rounded-full",
+            "backdrop-blur-sm text-white",
+            getColorClass(project.accentColor, "bg")
+          )}
         >
           {project.type}
         </span>
-
-        {/* Action Icons - Show on Hover */}
-        <div className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-all duration-300">
+        <div
+          className={cn(
+            "absolute inset-0 flex items-center justify-center gap-3",
+            "opacity-0 transition-opacity duration-300",
+            isIconsVisible && "opacity-100",
+            "group-hover:opacity-100"
+          )}
+        >
           {project.repoLink && (
             <motion.a
               href={project.repoLink}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-3 bg-white/20 backdrop-blur-sm rounded-full border border-white/30 hover:bg-white/30 transition-all duration-200"
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.9 }}
+              className="p-2 bg-black/50 backdrop-blur-sm rounded-full hover:bg-black/70 transition-all"
               onClick={(e) => e.stopPropagation()}
             >
-              <Github size={20} className="text-white" />
+              <Github size={16} className="text-white" />
             </motion.a>
           )}
-          
           {project.certificateLink && (
             <motion.a
               href={project.certificateLink}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-3 bg-white/20 backdrop-blur-sm rounded-full border border-white/30 hover:bg-white/30 transition-all duration-200"
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.9 }}
+              className="p-2 bg-black/50 backdrop-blur-sm rounded-full hover:bg-black/70 transition-all"
               onClick={(e) => e.stopPropagation()}
             >
-              <Award size={20} className="text-white" />
+              <Award size={16} className="text-white" />
             </motion.a>
           )}
-          
           {project.link && (
             <motion.a
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className={`p-3 backdrop-blur-sm rounded-full border border-white/30 transition-all duration-200 ${getColorClass(project.accentColor, "bg")} text-white hover:opacity-90`}
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.9 }}
+              className={cn(
+                "p-2 rounded-full backdrop-blur-sm",
+                getColorClass(project.accentColor, "bg"),
+                "hover:opacity-80 transition-all"
+              )}
               onClick={(e) => e.stopPropagation()}
             >
-              <Globe size={20} />
+              <Globe size={16} className="text-white" />
             </motion.a>
           )}
         </div>
       </div>
 
       {/* Content Section */}
-      <Link href={project.link}>
-        <div className="p-5">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="text-xl">{project.icon}</span>
-            <h4 className="text-lg font-semibold text-card-foreground hover:text-primary transition-colors">
+      <div className="p-4">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="text-lg">{project.icon}</span>
+          <Link href={project.link} onClick={(e) => e.stopPropagation()}>
+            <h4
+              className={cn(
+                "text-base font-semibold text-card-foreground",
+                "hover:text-primary transition-colors"
+              )}
+            >
               {project.title}
             </h4>
-          </div>
-
-          <p className="text-sm line-clamp-2 mb-4 h-10 text-muted-foreground">
-            {project.description}
-          </p>
-
-          <div className="flex flex-wrap gap-1.5">
-            {project.tech.map((tech) => (
-              <span
-                key={tech}
-                className={cn(
-                  "px-2 py-1 text-xs font-medium rounded-full",
-                  theme === "dark"
-                    ? getColorClass(project.accentColor, "bgDark")
-                    : getColorClass(project.accentColor, "bgLight"),
-                  getColorClass(project.accentColor, "text")
-                )}
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
+          </Link>
         </div>
-      </Link>
-
+        <p className="text-xs line-clamp-2 mb-3 h-8 text-muted-foreground">
+          {project.description}
+        </p>
+        <div className="flex flex-wrap gap-1">
+          {project.tech.map((tech) => (
+            <span
+              key={tech}
+              className={cn(
+                "px-1.5 py-0.5 text-xs font-medium rounded-full",
+                theme === "dark"
+                  ? getColorClass(project.accentColor, "bgDark")
+                  : getColorClass(project.accentColor, "bgLight"),
+                getColorClass(project.accentColor, "text")
+              )}
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+      </div>
       <div
         className={cn(
-          "absolute bottom-0 left-0 h-1 w-0 group-hover:w-full",
+          "absolute bottom-0 left-0 h-0.5 w-0 group-hover:w-full",
           getColorClass(project.accentColor, "bg"),
           "transition-all duration-300"
         )}
