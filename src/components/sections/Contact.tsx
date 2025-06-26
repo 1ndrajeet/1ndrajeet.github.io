@@ -14,6 +14,7 @@ interface ContactData {
     name: string;
     email: string;
     message: string;
+    phone ?: string;
 }
 
 interface SocialLink {
@@ -34,6 +35,7 @@ export default function ContactMe({ socialLinks }: { socialLinks: SocialLink[] }
         name: "",
         email: "",
         message: "",
+	phone: "",
     });
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
     const [errorMessage, setErrorMessage] = useState("");
@@ -58,7 +60,10 @@ export default function ContactMe({ socialLinks }: { socialLinks: SocialLink[] }
         if (!formData.email.trim()) return "Email required. Carrier pigeons are unreliable these days.";
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
             return "That email looks suspicious. Are you a robot? Beep boop?";
-        if (!formData.message.trim()) return "Message field empty! Don't be shy, I don't bite... much.";
+        if (!formData.phone?.trim()) return "Phone number is important. Even Batman uses a Batphone!";
+	if (!/^[0-9]{10}$/.test(formData.phone))
+	    return "Hmm... that doesn't look like a valid 10-digit number.";
+	if (!formData.message.trim()) return "Message field empty! Don't be shy, I don't bite... much.";
         return "";
     };
 
@@ -90,7 +95,7 @@ export default function ContactMe({ socialLinks }: { socialLinks: SocialLink[] }
 
             if (response.ok) {
                 setStatus("success");
-                setFormData({ name: "", email: "", message: "" });
+                setFormData({ name: "", email: "", message: "", phone: "" });
             } else {
                 throw new Error("Form submission failed.");
             }
@@ -251,6 +256,27 @@ export default function ContactMe({ socialLinks }: { socialLinks: SocialLink[] }
                             disabled={status === "loading"}
                         />
                     </div>
+		    {/* Phone Field */}
+<div>
+    <label
+        htmlFor="phone"
+        className={cn("block text-sm font-medium mb-1 dark:text-neutral-200 text-neutral-700")}
+    >
+        Mobile Number
+    </label>
+    <input
+        type="tel"
+        id="phone"
+        name="phone"
+        value={formData.phone}
+        onChange={handleChange}
+        className={cn(
+            "w-full px-4 py-2 text-sm rounded-md border outline-none transition-colors dark:bg-neutral-900 dark:border-neutral-600 dark:text-neutral-200 dark:focus:border-amber-500 bg-white border-neutral-300 text-neutral-800 focus:border-amber-500"
+        )}
+        placeholder="9876543210"
+        disabled={status === "loading"}
+    />
+</div>
 
                     {/* Email Field */}
                     <div>
