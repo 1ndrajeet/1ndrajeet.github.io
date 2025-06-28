@@ -1,15 +1,28 @@
 import { getDb } from '@/lib/db';
 import { NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const db = await getDb();
 
-    const certificateQuery =  db.collection('certificates')
-          .find({ featured: true })
-          .sort({ createdAt: -1 })
-          .limit(3)
-          .toArray()
+    // Get the 'featured' param from the URL
+    const { searchParams } = new URL(request.url);
+    const featuredParam = searchParams.get('featured');
+    const featured = featuredParam === 'true';
+
+    // Build the query
+    const query = featuredParam !== null ? { featured } : {};
+
+    let cursor = db.collection('certificates')
+      .find(query)
+      .sort({ createdAt: -1 });
+
+    if (featuredParam !== null) {
+      cursor = cursor.limit(3);
+    }
+
+    const certificateQuery = await cursor.toArray();
+
 
     const [projects, aboutData, certificates] = await Promise.all([
       db.collection('project_data').find({}).toArray(),

@@ -10,11 +10,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { ProjectType, CollectionType, projectCategories, projectTypes, projectAccents, AboutType } from './types';
+import { ProjectType, CollectionType, projectCategories, projectTypes, projectAccents, AboutType, CertificateType } from './types';
 
 type ProjectsProps = {
   projects: ProjectType[];
-  setData: React.Dispatch<React.SetStateAction<{ projects: ProjectType[]; about: AboutType[] }>>;
+  setData: React.Dispatch<React.SetStateAction<{ projects: ProjectType[]; about: AboutType[], certificates: CertificateType[] }>>;
   setMessage: (msg: string) => void;
   isSubmitting: boolean;
   setIsSubmitting: (submitting: boolean) => void;

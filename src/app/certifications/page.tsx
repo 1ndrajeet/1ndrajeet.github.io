@@ -25,7 +25,7 @@ import { Badge } from "@/components/ui/badge";
 type CertificateCategory = "Competition" | "Quiz" | "Hackathon" | "Design" | "Security";
 
 interface Certificate {
-  id: string;
+  _id: string;
   title: string;
   date: string;
   organization: string;
@@ -350,7 +350,7 @@ const CertificateCard = ({
       onKeyDown={(e) => e.key === "Enter" && onSelect(cert)}
     >
       <div className={`relative ${cert.featured ? "h-48" : "h-40"} w-full overflow-hidden`}>
-        {imageError[cert.id] ? (
+        {imageError[cert._id] ? (
           <div className="absolute inset-0 flex items-center justify-center bg-neutral-100 dark:bg-neutral-800">
             <div className="flex flex-col items-center text-neutral-400">
               <ImageOff size={32} className="mb-2" />
@@ -365,7 +365,7 @@ const CertificateCard = ({
             fill
             className="object-cover transition-transform duration-500 hover:scale-110"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            onError={() => onImageError(cert.id)}
+            onError={() => onImageError(cert._id)}
             priority={cert.featured}
           />
         )}
@@ -478,7 +478,7 @@ const CertificateModal = ({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative h-64">
-          {imageError[cert.id] ? (
+          {imageError[cert._id] ? (
             <div className="absolute inset-0 flex items-center justify-center bg-neutral-100 dark:bg-neutral-800">
               <ImageOff size={64} className="text-neutral-400" />
             </div>
@@ -592,7 +592,7 @@ export default function CertificationsPage() {
         // Ensure data matches Certificate type
         const validatedCertificates: Certificate[] = data.filter((item): item is Certificate => {
           return (
-            typeof item.id === "string" &&
+            typeof item._id === "string" &&
             typeof item.title === "string" &&
             typeof item.date === "string" &&
             typeof item.organization === "string" &&
@@ -695,7 +695,7 @@ export default function CertificationsPage() {
               >
                 {filteredCertificates.map((cert) => (
                   <CertificateCard
-                    key={cert.id}
+                    key={cert._id}
                     cert={cert}
                     onSelect={() => setSelectedCert(cert)}
                     onImageError={handleImageError}

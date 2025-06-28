@@ -8,7 +8,7 @@ import { Award, ImageOff } from "lucide-react";
 
 // Define certificate interface
 interface Certificate {
-  id: string;
+  _id: string;
   title: string;
   organization: string;
   image: string;
@@ -92,7 +92,7 @@ export default function CertificationsSection({ certificates }: { certificates: 
         >
           {certificates.map((cert, index) => (
             <motion.div
-              key={cert.id}
+              key={cert._id}
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               whileHover={{ y: -5 }}
@@ -103,7 +103,7 @@ export default function CertificationsSection({ certificates }: { certificates: 
               aria-label={`View ${cert.title}`}
             >
               <div className="relative h-48">
-                {imageError[cert.id] ? (
+                {imageError[cert._id] ? (
                   <div className="absolute inset-0 flex items-center justify-center bg-muted">
                     <div className="flex flex-col items-center text-muted-foreground">
                       <ImageOff size={32} className="mb-2" />
@@ -117,7 +117,7 @@ export default function CertificationsSection({ certificates }: { certificates: 
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    onError={() => handleImageError(cert.id)}
+                    onError={() => handleImageError(cert._id)}
                     priority={true}
                   />
                 )}

@@ -4,34 +4,38 @@ import { ObjectId } from 'mongodb';
 
 // Helper to check führer designation
 
-
 export async function GET() {
-    try {
-      const db = await getDb();
-      
-      // Fetch both projects and about data in parallel
-      const [projects, aboutData] = await Promise.all([
-        db.collection('project_data').find({}).toArray(),
-        db.collection('about_data').find({}).toArray()
-      ]);
-  
-      // Remove MongoDB's internal _id field from projects
-      
-      
-      return NextResponse.json({
-        projects,
-        about: aboutData
-      });
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500 });
-    }
-  
+  try {
+    const db = await getDb();
+
+    // Fetch projects, about, and certifications data in parallel
+    const [projects, aboutData, certifications] = await Promise.all([
+      db.collection('project_data').find({}).toArray(),
+      db.collection('about_data').find({}).toArray(),
+      db.collection('certificates').find({}).toArray()
+    ]);
+
+    // Transform MongoDB documents to remove internal _id and convert ObjectId to string
+    type MongoDoc = { _id: ObjectId; [key: string]: unknown };
+    const transformData = (data: MongoDoc[]) => data.map(item => ({
+      ...item,
+      _id: item._id.toString()
+    }));
+
+    return NextResponse.json({
+      projects: transformData(projects),
+      about: transformData(aboutData),
+      certifications: transformData(certifications)
+    });
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500 });
   }
-  
+}
 
 export async function POST(req: Request) {
   // Check designation
+  // await checkFuhrerDesignation();
 
   try {
     const body = await req.json();
@@ -41,7 +45,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing collection or data' }, { status: 400 });
     }
 
-    if (!['project_data', 'about_data'].includes(collection)) {
+    if (!['project_data', 'about_data', 'certificates'].includes(collection)) {
       return NextResponse.json({ error: 'Invalid collection' }, { status: 400 });
     }
 
@@ -50,7 +54,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       message: `Successfully added to ${collection}`,
-      id: result.insertedId,
+      id: result.insertedId.toString(),
       data,
     }, { status: 201 });
   } catch (error) {
@@ -61,6 +65,7 @@ export async function POST(req: Request) {
 
 export async function PUT(req: Request) {
   // Check designation
+  // await checkFuhrerDesignation();
 
   try {
     const body = await req.json();
@@ -70,13 +75,13 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: 'Missing collection, id, or data' }, { status: 400 });
     }
 
-    if (!['project_data', 'about_data'].includes(collection)) {
+    if (!['project_data', 'about_data', 'certificates'].includes(collection)) {
       return NextResponse.json({ error: 'Invalid collection' }, { status: 400 });
     }
 
     const db = await getDb();
     const result = await db.collection(collection).updateOne(
-      { _id: new ObjectId(id) },
+      { _id: ObjectId.createFromHexString(id) },
       { $set: data },
       { upsert: false }
     );
@@ -98,6 +103,7 @@ export async function PUT(req: Request) {
 
 export async function DELETE(req: Request) {
   // Check designation
+  // await checkFuhrerDesignation();
 
   try {
     const body = await req.json();
@@ -107,13 +113,12 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: 'Missing collection or id' }, { status: 400 });
     }
 
-    if (!['project_data', 'about_data'].includes(collection)) {
+    if (!['project_data', 'about_data', 'certificates'].includes(collection)) {
       return NextResponse.json({ error: 'Invalid collection' }, { status: 400 });
     }
 
     const db = await getDb();
-    const result = await db.collection(collection).deleteOne({ _id: new ObjectId(id) });
-
+    const result = await db.collection(collection).deleteOne({ _id: ObjectId.createFromHexString(id) });
     if (result.deletedCount === 0) {
       return NextResponse.json({ error: 'Document not found' }, { status: 404 });
     }

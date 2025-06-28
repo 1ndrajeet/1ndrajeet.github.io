@@ -8,9 +8,10 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Projects from './projects';
 import About from './about';
 import { DataState } from './types';
+import Certifications from './certification';
 
 export default function BatcaveAdmin() {
-  const [data, setData] = useState<DataState>({ projects: [], about: [] });
+  const [data, setData] = useState<DataState>({ projects: [], about: [], certificates: [] });
   const [isLoading, setIsLoading] = useState(true);
   const [message, setMessage] = useState('');
   const [messageVisible, setMessageVisible] = useState(false);
@@ -38,6 +39,7 @@ export default function BatcaveAdmin() {
         setData({
           projects: fetchedData.projects || [],
           about: fetchedData.about || [],
+          certificates: fetchedData.certificates || []
         });
       } catch (error) {
         setMessage('Error loading data');
@@ -53,7 +55,7 @@ export default function BatcaveAdmin() {
     return (
       <div className="min-h-screen bg-gray-950 text-gray-200 flex flex-col items-center justify-center">
         <div className="animate-pulse flex flex-col">
-          <span className="text-yellow-500 text-4xl">🦇</span>
+          <span className="text-yellow-500 text-4xl text-center">🦇</span>
           <p className="mt-4 text-yellow-500 font-bold">Loading the Batcave...</p>
         </div>
       </div>
@@ -117,7 +119,13 @@ export default function BatcaveAdmin() {
           />
         </TabsContent>
         <TabsContent value="certifications" className="mt-6">
-          {/* Add your Certifications component here */}
+          <Certifications
+            certificates={data.certificates}
+            setData={setData}
+            setMessage={setMessage}
+            isSubmitting={isSubmitting}
+            setIsSubmitting={setIsSubmitting}
+          />
         </TabsContent>
       </Tabs>
 

@@ -106,7 +106,6 @@ const groupProjectsByCategory = (projects: Project[]): Record<string, Project[]>
 };
 
 // Component for project card
-
 const ProjectCard = ({
   project,
   index,
@@ -155,7 +154,8 @@ const ProjectCard = ({
             fill
             className={cn(
               "object-cover transition-all duration-300",
-              (isIconsVisible || "group-hover") && "scale-105 blur-sm"
+              isIconsVisible && "scale-105 blur-sm",
+              "group-hover:scale-105 group-hover:blur-sm"
             )}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             onError={() => onImageError(project.title)}
@@ -237,16 +237,13 @@ const ProjectCard = ({
       <div className="p-4">
         <div className="flex items-center gap-2 mb-1">
           <span className="text-lg">{project.icon}</span>
-          <Link href={project.link} onClick={(e) => e.stopPropagation()}>
-            <h4
-              className={cn(
-                "text-base font-semibold text-card-foreground",
-                "hover:text-primary transition-colors"
-              )}
-            >
-              {project.title}
-            </h4>
-          </Link>
+          <h4
+            className={cn(
+              "text-base font-semibold text-card-foreground"
+            )}
+          >
+            {project.title}
+          </h4>
         </div>
         <p className="text-xs line-clamp-2 mb-3 h-8 text-muted-foreground">
           {project.description}

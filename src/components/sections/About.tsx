@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState, useEffect, ReactNode } from "react";
-import { Code, Target, Heart, Lightbulb, Trophy, Rocket, ChevronRight, Star, Puzzle, Crown, Dice6, Menu, X } from "lucide-react";
+import { ChevronRight, Star, Menu, X } from "lucide-react";
 
 interface AboutDataItem {
     title: string;
@@ -22,62 +22,8 @@ interface AboutMeProps {
     aboutData: AboutDataItem[];
 }
 
-// Sample data for demonstration
-const sampleData: AboutDataItem[] = [
-    {
-        title: "Full-Stack Developer",
-        description: "Passionate about creating scalable web applications using modern technologies like React, Node.js, and TypeScript. I love turning complex problems into simple, beautiful solutions.",
-        category: "Development",
-        accent: "blue",
-        icon: "💻",
-        stats: [
-            { label: "Projects", value: "25+" },
-            { label: "Experience", value: "3+ Yrs" },
-            { label: "Technologies", value: "15+" }
-        ]
-    },
-    {
-        title: "Problem Solver",
-        description: "I thrive on challenging problems and finding innovative solutions. Whether it's optimizing algorithms or designing user experiences, I approach each challenge with creativity and analytical thinking.",
-        category: "Mindset",
-        accent: "emerald",
-        icon: "🧩",
-        stats: [
-            { label: "Problems Solved", value: "100+" },
-            { label: "Efficiency", value: "95%" },
-            { label: "Success Rate", value: "98%" }
-        ]
-    },
-    {
-        title: "Strategic Thinker",
-        description: "Chess has taught me to think several moves ahead and consider all possibilities. This strategic mindset translates perfectly into software architecture and project planning.",
-        category: "Strategy",
-        accent: "purple",
-        icon: "♟️ ",
-        stats: [
-            { label: "Chess Rating", value: "1800+" },
-            { label: "Games Played", value: "500+" },
-            { label: "Win Rate", value: "75%" }
-        ]
-    },
-    {
-        title: "Innovation Driver",
-        description: "Always exploring new technologies and methodologies to stay ahead of the curve. I believe in continuous learning and pushing the boundaries of what's possible.",
-        category: "Innovation",
-        accent: "amber",
-        icon: "🚀",
-        stats: [
-            { label: "New Tech", value: "12+" },
-            { label: "Experiments", value: "50+" },
-            { label: "Breakthroughs", value: "8+" }
-        ]
-    }
-];
 
-const ICONS = {
-    "💻": Code, "🎯": Target, "❤️": Heart, "💡": Lightbulb,
-    "🏆": Trophy, "🚀": Rocket, "♟️ ": Crown, "🧩": Puzzle, "🎲": Dice6
-} as const;
+
 
 const ACCENT_COLORS = {
     blue: {
@@ -98,7 +44,7 @@ const ACCENT_COLORS = {
     }
 } as const;
 
-export default function AboutMe({ aboutData = sampleData }: AboutMeProps) {
+export default function AboutMe({ aboutData }: AboutMeProps) {
     const containerRef = useRef<HTMLElement>(null);
     const [activeIndex, setActiveIndex] = useState(0);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -118,12 +64,8 @@ export default function AboutMe({ aboutData = sampleData }: AboutMeProps) {
         return () => clearInterval(interval);
     }, [aboutData.length]);
 
-    const getIconComponent = (iconName: string) => {
-        const IconComponent = ICONS[iconName as keyof typeof ICONS] || Code;
-        return <IconComponent className="w-5 h-5" />;
-    };
 
-    const getAccentColors = (accent: string) => 
+    const getAccentColors = (accent: string) =>
         ACCENT_COLORS[accent as keyof typeof ACCENT_COLORS] || ACCENT_COLORS.blue;
 
     const currentColors = getAccentColors(aboutData[activeIndex].accent);
@@ -137,33 +79,29 @@ export default function AboutMe({ aboutData = sampleData }: AboutMeProps) {
                     setActiveIndex(index);
                     setIsMobileMenuOpen(false);
                 }}
-                className={`w-full text-left p-3 sm:p-4 rounded-xl transition-all duration-300 ${
-                    isActive
-                        ? `bg-white dark:bg-slate-800 shadow-md border-l-4 ${colors.border.replace('/20', '')}`
-                        : 'bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 border-l-4 border-transparent'
-                }`}
+                className={`w-full text-left p-3 sm:p-4 rounded-xl transition-all duration-300 ${isActive
+                    ? `bg-white dark:bg-slate-800 shadow-md border-l-4 ${colors.border.replace('/20', '')}`
+                    : 'bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 border-l-4 border-transparent'
+                    }`}
             >
                 <div className="flex items-center gap-3">
-                    <div className={`p-2 rounded-lg ${
-                        isActive
-                            ? `bg-gradient-to-br ${colors.gradient} text-white`
-                            : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400'
-                    } transition-all duration-300`}>
-                        {getIconComponent(item.icon)}
+                    <div className={`p-2 rounded-lg ${isActive
+                        ? `bg-gradient-to-br ${colors.gradient} text-white`
+                        : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400'
+                        } transition-all duration-300`}>
+                        {(item.icon)}
                     </div>
                     <div className="flex-1 min-w-0">
-                        <h4 className={`font-semibold text-sm sm:text-base ${
-                            isActive ? 'text-slate-900 dark:text-white' : 'text-slate-700 dark:text-slate-300'
-                        }`}>
+                        <h4 className={`font-semibold text-sm sm:text-base ${isActive ? 'text-slate-900 dark:text-white' : 'text-slate-700 dark:text-slate-300'
+                            }`}>
                             {item.category}
                         </h4>
                         <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 truncate">
                             {item.title}
                         </p>
                     </div>
-                    <ChevronRight className={`w-4 h-4 transition-transform duration-300 ${
-                        isActive ? `${colors.text}` : 'text-slate-400'
-                    }`} />
+                    <ChevronRight className={`w-4 h-4 transition-transform duration-300 ${isActive ? `${colors.text}` : 'text-slate-400'
+                        }`} />
                 </div>
             </button>
         );
@@ -207,7 +145,7 @@ export default function AboutMe({ aboutData = sampleData }: AboutMeProps) {
                     >
                         <div className="flex items-center gap-3">
                             <div className={`p-2 rounded-lg bg-gradient-to-br ${currentColors.gradient} text-white`}>
-                                {getIconComponent(currentItem.icon)}
+                                {(currentItem.icon)}
                             </div>
                             <div>
                                 <div className="font-semibold text-slate-900 dark:text-white">{currentItem.category}</div>
@@ -243,7 +181,7 @@ export default function AboutMe({ aboutData = sampleData }: AboutMeProps) {
                                 <div className="flex-1">
                                     <div className="flex items-center gap-3 mb-3">
                                         <div className={`p-2 rounded-lg bg-gradient-to-br ${currentColors.gradient} text-white`}>
-                                            {getIconComponent(currentItem.icon)}
+                                            {(currentItem.icon)}
                                         </div>
                                         <span className={`px-3 py-1 rounded-full text-xs font-medium ${currentColors.bg} ${currentColors.text} border ${currentColors.border}`}>
                                             {currentItem.category}
@@ -297,11 +235,10 @@ export default function AboutMe({ aboutData = sampleData }: AboutMeProps) {
                                 <button
                                     key={index}
                                     onClick={() => setActiveIndex(index)}
-                                    className={`h-2 rounded-full transition-all duration-300 ${
-                                        activeIndex === index
-                                            ? `w-6 bg-gradient-to-r ${currentColors.gradient}`
-                                            : 'w-2 bg-slate-300 dark:bg-slate-600'
-                                    }`}
+                                    className={`h-2 rounded-full transition-all duration-300 ${activeIndex === index
+                                        ? `w-6 bg-gradient-to-r ${currentColors.gradient}`
+                                        : 'w-2 bg-slate-300 dark:bg-slate-600'
+                                        }`}
                                 />
                             ))}
                         </div>

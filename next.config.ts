@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'ritindia.edu',
       },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com', // ✅ Cloudinary added
+      },
     ],
   },
 };

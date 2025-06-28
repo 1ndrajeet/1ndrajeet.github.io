@@ -98,7 +98,7 @@ const socialLinks: SocialLink[] = [
 
 // Define certificate interface
 interface Certificate {
-  id: string;
+  _id: string;
   title: string;
   organization: string;
   image: string;
@@ -122,7 +122,7 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/home");
+        const response = await fetch("/api/home?featured=true");
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.status}`);
         }
@@ -147,8 +147,8 @@ export default function Home() {
 
   return (
     <>
-    
-    <Header />
+
+      <Header />
       <Hero />
       <div id="about" className="">
         <AboutMe aboutData={data.about} />
@@ -159,7 +159,7 @@ export default function Home() {
       <div id="certifications" >
         <CertificationsSection certificates={data.certificates} />
       </div>
-       <div id="contact">
+      <div id="contact">
         <Contact socialLinks={socialLinks} />
       </div>
     </>
