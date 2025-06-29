@@ -9,6 +9,7 @@ import Projects from './projects';
 import About from './about';
 import { DataState } from './types';
 import Certifications from './certification';
+import { UserButton } from '@clerk/nextjs';
 
 export default function BatcaveAdmin() {
   const [data, setData] = useState<DataState>({ projects: [], about: [], certificates: [] });
@@ -71,6 +72,7 @@ export default function BatcaveAdmin() {
           </div>
           <h1 className="text-3xl font-bold text-yellow-500">BATCAVE ADMIN</h1>
         </div>
+        <UserButton />
       </header>
 
       {message && (

@@ -12,7 +12,6 @@ export async function GET(request: Request) {
       .collection('certificates')
       .find(isFeatured ? { featured: true } : {})
       .sort({ createdAt: -1 })
-      .limit(isFeatured ? 3 : 0)
       .toArray();
 
     return NextResponse.json(certificates);

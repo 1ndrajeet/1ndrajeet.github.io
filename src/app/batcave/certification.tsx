@@ -19,14 +19,16 @@ type CertificationsProps = {
   setIsSubmitting: (submitting: boolean) => void;
 };
 
-const certificationCategories = ['Hackathon', 'Course', 'Professional', 'Academic', 'Competition'] as const;
+const certificationCategories = ['Hackathon', 'Course', 'Professional', 'Academic', 'Competition','Quiz','Other'] as const;
 
 const categoryIcons = {
   'Hackathon': '🏆',
   'Course': '📚',
   'Professional': '💼',
   'Academic': '🎓',
-  'Competition': '🥇'
+  'Competition': '🥇',
+  'Quiz': '❓',
+  'Other': '🔧'
 };
 
 export default function Certifications({ certificates, setData, setMessage, isSubmitting, setIsSubmitting }: CertificationsProps) {
