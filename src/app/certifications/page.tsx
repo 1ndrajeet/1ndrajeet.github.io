@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 
-type CertificateCategory = "Competition" | "Quiz" | "Hackathon" | "Design" | "Security";
+type CertificateCategory = "Competition" | "Quiz" | "Hackathon" | "Design" | "Security" | "Other" | "Professional";
 
 interface Certificate {
   _id: string;
@@ -34,6 +34,8 @@ const themeConfig = {
   Hackathon: { colors: "from-violet-200 to-fuchsia-200", badge: "text-violet-500 dark:text-violet-300" },
   Design: { colors: "from-emerald-100 to-teal-200", badge: "text-emerald-500 dark:text-emerald-300" },
   Security: { colors: "from-orange-200 to-red-200", badge: "text-orange-500 dark:text-orange-300" },
+  Professional: { colors: "from-blue-200 to-indigo-200", badge: "text-blue-500 dark:text-blue-300" },
+  Other: { colors: "from-gray-200 to-neutral-200", badge: "text-gray-500 dark:text-gray-300" },
   default: { colors: "from-indigo-200 to-purple-200", badge: "text-indigo-500 dark:text-indigo-300" }
 };
 
@@ -54,7 +56,9 @@ const filterTabs = [
   { label: "Quiz", value: "Quiz" },
   { label: "Hackathon", value: "Hackathon" },
   { label: "Design", value: "Design" },
-  { label: "Security", value: "Security" }
+  { label: "Security", value: "Security" },
+  { label: "Professional", value: "Professional" },
+  { label: "Other", value: "Other" }
 ];
 
 const PageHeader = () => (
@@ -155,6 +159,7 @@ const CertificateCard = ({ cert, onSelect, imageError, onImageError }: Certifica
 
   return (
     <motion.div
+      id={cert._id}
       variants={animations.item}
       whileHover={{ y: -5, transition: { duration: 0.2 } }}
       className={cn(
@@ -300,7 +305,7 @@ const CertificateModal = ({ cert, onClose, imageError }: CertificateModalProps) 
             <Badge variant="outline">{cert.date}</Badge>
           </div>
           <h3 className="text-2xl md:text-3xl font-bold text-neutral-800 dark:text-white">{cert.title}</h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex items-center gap-3">
               <div className="bg-neutral-100 dark:bg-neutral-700 p-2 rounded-full">
@@ -323,12 +328,12 @@ const CertificateModal = ({ cert, onClose, imageError }: CertificateModalProps) 
               </div>
             )}
           </div>
-          
+
           <div>
             <h4 className="text-lg font-medium text-neutral-800 dark:text-white mb-2">About this certification</h4>
             <p className="text-neutral-600 dark:text-neutral-400">{cert.description}</p>
           </div>
-          
+
           {(cert.skills?.length ?? 0) > 0 && (
             <div>
               <h4 className="text-lg font-medium text-neutral-800 dark:text-white mb-3">Skills</h4>
@@ -339,7 +344,7 @@ const CertificateModal = ({ cert, onClose, imageError }: CertificateModalProps) 
               </div>
             </div>
           )}
-          
+
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             {cert.link && (
               <Link
@@ -447,7 +452,9 @@ export default function CertificationsPage() {
                 variants={animations.container}
                 initial="hidden"
                 animate="visible"
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 auto-rows-fr"
+
+                style={{ gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}
               >
                 {filteredCertificates.map(cert => (
                   <CertificateCard
