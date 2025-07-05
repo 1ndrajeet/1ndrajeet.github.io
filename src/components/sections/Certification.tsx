@@ -107,13 +107,13 @@ export default function CertificationsSection({ certificates }: { certificates: 
                   <div className="absolute inset-0 flex items-center justify-center bg-muted">
                     <div className="flex flex-col items-center text-muted-foreground">
                       <ImageOff size={32} className="mb-2" />
-                      <span className="text-xs">{cert.alt}</span>
+                      <span className="text-xs">{cert.alt || ""}</span>
                     </div>
                   </div>
                 ) : (
                   <Image
                     src={cert.image}
-                    alt={cert.alt}
+                    alt={cert.alt || ""}
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

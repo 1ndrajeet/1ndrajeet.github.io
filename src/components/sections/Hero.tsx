@@ -2,13 +2,10 @@
 import { useState, useEffect } from "react";
 import { Gotu } from "next/font/google";
 import Link from "next/link";
+import { SiDocker, SiFastapi, SiMysql, SiNextdotjs, SiTypescript } from "react-icons/si";
 import { Button } from "../ui/button";
-import { 
-  Code, 
-  Shield,
+import {
   Medal,
-  Target,
-  Command,
   Crown,
   Star
 } from "lucide-react";
@@ -22,15 +19,36 @@ export default function Hero() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [skillIndex, setSkillIndex] = useState(0);
   const [scrollPosition, setScrollPosition] = useState(0);
-  
+
   // Combat-ready tech skills
-  const eliteSkills = [
-    { name: "Next.js", icon: <Command className="w-5 h-5" />, color: "text-blue-500" },
-    { name: "TypeScript", icon: <Shield className="w-5 h-5" />, color: "text-cyan-500" },
-    { name: "FastAPI", icon: <Target className="w-5 h-5" />, color: "text-purple-400" },
-    { name: "Docker", icon: <Medal className="w-5 h-5" />, color: "text-green-500" },
-    { name: "MySQL", icon: <Code className="w-5 h-5" />, color: "text-amber-500" },
-  ];
+ const eliteSkills = [
+  {
+    name: "Next.js",
+    icon: <SiNextdotjs className="w-5 h-5 text-gray-600" />,
+    color: "text-blue-500",
+  },
+  {
+    name: "TypeScript",
+    icon: <SiTypescript className="w-5 h-5 text-[#3178c6]" />,
+    color: "text-cyan-500",
+  },
+  {
+    name: "FastAPI",
+    icon: <SiFastapi className="w-5 h-5 text-[#009688]" />,
+    color: "text-purple-400",
+  },
+  {
+    name: "Docker",
+    icon: <SiDocker className="w-5 h-5 text-[#2496ed]" />,
+    color: "text-green-500",
+  },
+  {
+    name: "MySQL",
+    icon: <SiMysql className="w-5 h-5 text-[#00758f]" />,
+    color: "text-amber-500",
+  },
+];
+
 
   // Handle scroll effects and animation loading
   useEffect(() => {
@@ -49,7 +67,7 @@ export default function Hero() {
     }, 2500);
 
     window.addEventListener("scroll", handleScroll);
-    
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
       clearInterval(interval);
@@ -67,9 +85,9 @@ export default function Hero() {
           <div key={i} className="border-[0.5px] border-black dark:border-white"></div>
         ))}
       </div>
-      
+
       {/* Dynamic background mask */}
-      <div 
+      <div
         className="absolute inset-0 dark:bg-black z-0 backdrop-blur-3xl"
         style={{
           opacity: backgroundMaskOpacity,
@@ -81,10 +99,10 @@ export default function Hero() {
       <div className="absolute inset-0 overflow-hidden md:opacity-20 opacity-0 pointer-events-none z-0">
         <div className="font-mono text-xs text-neutral-900 dark:text-white p-8 transform">
           {Array.from({ length: 15 }).map((_, i) => (
-            <div 
-              key={i} 
+            <div
+              key={i}
               className="mb-3 overflow-hidden whitespace-nowrap"
-              style={{ 
+              style={{
                 animation: `typeIn 4s ${i * 0.4}s forwards`,
                 opacity: isLoaded ? 1 : 0,
               }}
@@ -99,9 +117,9 @@ export default function Hero() {
       <div className="relative min-h-screen flex flex-col justify-center px-6 sm:px-12 lg:px-20 z-10">
         <div className="max-w-6xl mx-auto w-full">
           {/* Tactical header */}
-          <div 
+          <div
             className="mb-6"
-            style={{ 
+            style={{
               opacity: isLoaded ? 1 : 0,
               transform: `translateY(${isLoaded ? '0' : '20px'})`,
               transition: 'opacity 0.8s, transform 0.8s',
@@ -112,16 +130,16 @@ export default function Hero() {
               <Crown className="w-6 h-6 text-amber-500 dark:text-amber-400" />
               <div className="h-px w-16 bg-neutral-400 dark:bg-neutral-600"></div>
             </div>
-            
+
             <span className={`${gotu.className} text-sm font-bold block mb-3 text-neutral-700 dark:text-neutral-400 text-center`}>
               || विजिगीषु: न समवेतव्यः ||
             </span>
 
             <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-neutral-900 dark:text-white mb-4 text-center tracking-tight">
               <div className="relative overflow-hidden">
-                <span 
+                <span
                   className="block"
-                  style={{ 
+                  style={{
                     clipPath: isLoaded ? "polygon(0 0, 100% 0, 100% 100%, 0 100%)" : "polygon(0 0, 0 0, 0 100%, 0 100%)",
                     transition: "clip-path 1.2s cubic-bezier(0.6, 0.2, 0.1, 1)"
                   }}
@@ -129,9 +147,9 @@ export default function Hero() {
                   OMKAR <span className="text-amber-500 dark:text-amber-400">KULKARNI</span>
                 </span>
               </div>
-              <div 
+              <div
                 className="text-lg sm:text-xl md:text-2xl mt-3 tracking-widest"
-                style={{ 
+                style={{
                   opacity: isLoaded ? 1 : 0,
                   transform: `translateY(${isLoaded ? '0' : '10px'})`,
                   transition: 'opacity 0.8s 0.4s, transform 0.8s 0.4s',
@@ -143,9 +161,9 @@ export default function Hero() {
           </div>
 
           {/* Battle cry */}
-          <div 
+          <div
             className="mb-12 relative"
-            style={{ 
+            style={{
               opacity: isLoaded ? 1 : 0,
               transform: `translateY(${isLoaded ? '0' : '20px'})`,
               transition: 'opacity 0.8s 0.6s, transform 0.8s 0.6s',
@@ -155,7 +173,7 @@ export default function Hero() {
               <span className="text-amber-500 dark:text-amber-400 font-bold">ÜBERMACHT</span> IN DEVELOPMENT
             </p>
             <p className="text-lg sm:text-xl max-w-3xl mx-auto text-neutral-600 dark:text-neutral-400 mt-4 text-center">
-              Where others falter, I <span className="font-bold underline decoration-amber-500 dark:decoration-amber-400 decoration-2">execute</span>. 
+              Where others falter, I <span className="font-bold underline decoration-amber-500 dark:decoration-amber-400 decoration-2">execute</span>.
               Delivering systems of unrivaled quality through
               <span className="relative inline-block mx-2">
                 <span className={`absolute transition-opacity duration-500 ${skillIndex === 0 ? "opacity-100" : "opacity-0"}`}>
@@ -180,9 +198,9 @@ export default function Hero() {
           </div>
 
           {/* Elite skills */}
-          <div 
+          <div
             className="mb-12 flex justify-center"
-            style={{ 
+            style={{
               opacity: isLoaded ? 1 : 0,
               transform: `translateY(${isLoaded ? '0' : '20px'})`,
               transition: 'opacity 0.8s 0.8s, transform 0.8s 0.8s',
@@ -192,11 +210,10 @@ export default function Hero() {
               {eliteSkills.map((skill, index) => (
                 <button
                   key={index}
-                  className={`px-5 py-2 border-l-2 transition-all duration-300 flex items-center gap-2 text-sm font-bold ${
-                    skillIndex === index 
-                      ? "bg-neutral-900 text-white dark:bg-white dark:text-black border-amber-500 dark:border-amber-400 scale-110" 
-                      : "bg-neutral-100 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200 border-neutral-300 dark:border-neutral-700 hover:border-amber-500 dark:hover:border-amber-400"
-                  }`}
+                  className={`px-5 py-2 border-l-2 transition-all duration-300 flex items-center gap-2 text-sm font-bold ${skillIndex === index
+                    ? "bg-neutral-900 text-white dark:bg-white dark:text-black border-amber-500 dark:border-amber-400 scale-110"
+                    : "bg-neutral-100 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200 border-neutral-300 dark:border-neutral-700 hover:border-amber-500 dark:hover:border-amber-400"
+                    }`}
                   onClick={() => setSkillIndex(index)}
                 >
                   {skill.icon}
@@ -207,9 +224,9 @@ export default function Hero() {
           </div>
 
           {/* Call to action */}
-          <div 
+          <div
             className="flex flex-col sm:flex-row justify-center gap-4 mb-12"
-            style={{ 
+            style={{
               opacity: isLoaded ? 1 : 0,
               transform: `translateY(${isLoaded ? '0' : '20px'})`,
               transition: 'opacity 0.8s 1s, transform 0.8s 1s',
@@ -236,9 +253,9 @@ export default function Hero() {
           </div>
 
           {/* Dominance tagline */}
-          <div 
+          <div
             className="text-center mb-4"
-            style={{ 
+            style={{
               opacity: isLoaded ? 1 : 0,
               transition: 'opacity 0.8s 1.2s',
             }}
@@ -249,9 +266,9 @@ export default function Hero() {
           </div>
 
           {/* Elite footer */}
-          <div 
+          <div
             className="flex justify-center items-center"
-            style={{ 
+            style={{
               opacity: isLoaded ? 1 : 0,
               transition: 'opacity 0.8s 1.4s',
             }}
@@ -265,7 +282,7 @@ export default function Hero() {
         </div>
       </div>
 
-      
+
 
       {/* Animation keyframes */}
       <style jsx global>{`
@@ -312,6 +329,6 @@ function getCommandLineText(index: number) {
     "// When they said it was impossible...",
     "import { triumph } from '@1ndrajeet/victory';"
   ];
-  
+
   return commandLines[index % commandLines.length];
 }

@@ -181,7 +181,7 @@ const CertificateCard = ({ cert, onSelect, imageError, onImageError }: Certifica
         ) : (
           <Image
             src={cert.image}
-            alt={cert.alt}
+            alt={cert.alt || ""}
             fill
             className="object-cover transition-transform duration-500 hover:scale-110"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -290,7 +290,7 @@ const CertificateModal = ({ cert, onClose, imageError }: CertificateModalProps) 
               <ImageOff size={64} className="text-neutral-400" />
             </div>
           ) : (
-            <Image src={cert.image} alt={cert.alt} fill className="object-cover" />
+            <Image src={cert.image} alt={cert.alt || ""} fill className="object-cover" />
           )}
           <button
             onClick={(e) => { e.stopPropagation(); onClose(); }}

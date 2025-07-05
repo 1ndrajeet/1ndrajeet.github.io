@@ -29,11 +29,11 @@ export const LoaderLandingPage = () => {
     <div className={`flex flex-col items-center justify-center min-h-screen bg-[#0a0a0a] ${inter.className}`}>
       <div className="flex flex-col items-center w-full max-w-[200px]">
         <div className="flex items-center gap-2 mb-2">
-          <RingLoader color="#22d3ee" size={64} />
+          <RingLoader color="#d97706" size={64} />
         </div>
         <div className="w-full h-1 bg-[#27272a] rounded-full">
           <div
-            className="h-full bg-[#22d3ee] rounded-full transition-all"
+            className="h-full bg-[#d97706] rounded-full transition-all"
             style={{ width: `${progress}%` }}
           />
         </div>

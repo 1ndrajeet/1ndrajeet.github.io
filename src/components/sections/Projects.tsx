@@ -144,13 +144,13 @@ const ProjectCard = ({
           <div className="absolute inset-0 flex items-center justify-center bg-muted">
             <div className="flex flex-col items-center text-muted-foreground">
               <ImageOff size={24} className="mb-1" />
-              <span className="text-xs">{project.alt}</span>
+              <span className="text-xs">{project.alt || ""}</span>
             </div>
           </div>
         ) : (
           <Image
             src={project.image}
-            alt={project.alt}
+            alt={project.alt || ""}
             fill
             className={cn(
               "object-cover transition-all duration-300",

@@ -195,7 +195,7 @@ export default function AboutMe({ aboutData }: AboutMeProps) {
                                     <div className="relative w-24 h-24 mx-auto sm:mx-0">
                                         <img
                                             src={currentItem.image}
-                                            alt={currentItem.alt}
+                                            alt={currentItem.alt || "About Image"}
                                             className="w-full h-full object-cover rounded-xl border-2 border-white dark:border-slate-700"
                                         />
                                     </div>
