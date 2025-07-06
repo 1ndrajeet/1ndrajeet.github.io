@@ -13,10 +13,9 @@ import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 // Define navigation items for reusability
 const NAV_ITEMS = [
-  { label: "About", href: "#about" },
-  { label: "Projects", href: "#projects" },
-  { label: "Blog", href: "#blog" },
   { label: "Contact", href: "#contact" },
+  { label: "Certificates", href: "/certifications" },
+  { label: "Blog", href: "/blog" },
 ] as const;
 
 const ADMIN_NAV_ITEMS = [
@@ -130,11 +129,7 @@ export function Header({ className }: HeaderProps = {}) {
           <nav className="hidden md:flex items-center gap-6" role="navigation">
             <SignedOut>
               {renderNavItems}
-              <Link href="/batcave" className="text-sm font-medium transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary rounded-md px-1 py-0.5">
-                <svg 
-        fill="currentColor" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="40" height="40" viewBox="0 0 48 48">
-                  <path d="M24,18.2c0.7,0,0.9,0.2,0.9,0.2l0.4-1.7c0,0,0.4,1.5,0.4,2.8c0.2,1.1,2.2,0.4,3.9,0C31.4,19.1,32,16,32,16h16c0,0-9.4,3.5-7,10c0,0-14.8-2-17,7l0,0c-2.2-9-17-7-17-7c2.4-6.5-7-10-7-10h16c0,0,0.6,3.1,2.3,3.5c1.7,0.4,3.9,1.1,3.9,0c0.2-1.1,0.4-2.8,0.4-2.8l0.4,1.7C23.1,18.4,23.4,18.2,24,18.2L24,18.2L24,18.2z" ></path>
-                </svg></Link>
+              
             </SignedOut>
             <SignedIn>
               {renderAdminNavItems}
@@ -233,13 +228,7 @@ export function Header({ className }: HeaderProps = {}) {
                     {item.label}
                   </Link>
                 ))}
-                <Link href="/batcave" className="m-auto">
-                  <ShinyButton className="text-center underline text-sm font-medium bg-yellow-500 dark:rounded-full dark:text-black dark:ring-0 transition-colors hover:text-foreground outline-none ring-2 ring-primary rounded-md px-1 py-0.5" >
-                    <svg        fill="currentColor" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="40" height="40" viewBox="0 0 48 48">
-                    <path d="M24,18.2c0.7,0,0.9,0.2,0.9,0.2l0.4-1.7c0,0,0.4,1.5,0.4,2.8c0.2,1.1,2.2,0.4,3.9,0C31.4,19.1,32,16,32,16h16c0,0-9.4,3.5-7,10c0,0-14.8-2-17,7l0,0c-2.2-9-17-7-17-7c2.4-6.5-7-10-7-10h16c0,0,0.6,3.1,2.3,3.5c1.7,0.4,3.9,1.1,3.9,0c0.2-1.1,0.4-2.8,0.4-2.8l0.4,1.7C23.1,18.4,23.4,18.2,24,18.2L24,18.2L24,18.2z" className=""></path>
-                  </svg>
-                  </ShinyButton>
-                  </Link>
+                
               </SignedOut>
 
             </div>
