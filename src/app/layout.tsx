@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning className="scroll-smooth">
-        <body className={`${font.className} antialiased`}>
+        <body className={`${font.className} antialiased max-w-8xl`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { MongoClient, ObjectId } from "mongodb";
 
-const uri = "mongodb+srv://1ndrajeet:itsBatm4n@projects.b4hev.mongodb.net/";
+const uri = process.env.DATABASE_URL || "";
 const client = new MongoClient(uri);
 const dbName = "blog";
 const collectionName = "posts";
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
       );
     }
 
-   
+
     const collection = await connectToDatabase();
     const post = await collection.insertOne({
       title: body.title,
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
       updatedAt: new Date()
     });
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       _id: post.insertedId,
       ...body,
       publishedAt: new Date().toISOString()

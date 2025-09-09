@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Inter } from "next/font/google";
 import { motion, AnimatePresence } from "framer-motion";
 import { RingLoader } from "react-spinners";
-import { RiFlashlightFill } from "react-icons/ri"; // tiny brand accent
 
 const inter = Inter({ subsets: ["latin"], weight: "400" });
 
@@ -36,8 +35,7 @@ export const LoaderLandingPage = () => {
       <div className="flex flex-col items-center w-full max-w-[220px]">
         <div className="flex items-center gap-2 mb-3">
           {/* tiny accent icon for a personal stamp */}
-          <RiFlashlightFill className="text-[#d97706] text-xl animate-pulse" />
-          <RingLoader color="#d97706" size={60} />
+         <RingLoader color="#d97706" size={60} />
         </div>
 
         {/* progress bar with smooth motion */}
