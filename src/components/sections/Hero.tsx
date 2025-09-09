@@ -433,7 +433,7 @@ export default function Hero() {
             </div>
 
             {/* Tech Stack Sidebar - Mobile Bottom */}
-            <div className="lg:col-span-2 order-first lg:order-last">
+            <div className="lg:col-span-2 order-last">
               <div className="sticky top-8">
                 {/* Tech Stack Header */}
                 <motion.div
