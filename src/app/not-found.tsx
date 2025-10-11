@@ -1,7 +1,7 @@
 "use client";
 
 import { ShinyButton } from "@/components/magicui/shiny-button";
-import { motion,  useReducedMotion } from "framer-motion";
+import { easeOut, motion,  useReducedMotion } from "framer-motion";
 import { AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { useMemo } from "react";
@@ -14,7 +14,7 @@ const containerVariants = {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: "easeOut",
+      ease: easeOut,
       staggerChildren: 0.2,
     },
   },

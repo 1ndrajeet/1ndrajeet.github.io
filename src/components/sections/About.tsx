@@ -12,7 +12,7 @@ interface AboutDataItem {
     alt?: string;
     category: string;
     accent: string;
-    icon: React.ReactNode; // Changed from string to React.ReactNode
+    icon: React.ReactNode;
     stats?: {
         label: string;
         value: string;
