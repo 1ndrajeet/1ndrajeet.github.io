@@ -145,7 +145,7 @@ const MobileStats = () => (
       animate={{ opacity: 1, y: 0 }}
       className="text-center p-3 rounded-xl bg-gradient-to-br from-amber-500/10 to-orange-500/5 border border-amber-500/20"
     >
-      <div className="text-xl font-bold text-amber-500">2+</div>
+      <div className="text-xl font-bold text-amber-500">1.5+</div>
       <div className="text-xs text-gray-400">Years</div>
     </motion.div>
     <motion.div
